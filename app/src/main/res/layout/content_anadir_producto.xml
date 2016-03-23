@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".AnadirProducto"
+    tools:showIn="@layout/activity_anadir_producto"
+    android:background="@drawable/logo_sincolor">
+
+    <!-- view for AdMob Interstitial Ad -->
+
+    <Button
+        android:id="@+id/añadir_button"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="AÑADIR"
+        android:backgroundTint="#6494dd"
+        android:textColor="#ffffff"
+        android:textSize="25dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="44dp" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Nombre:"
+        android:ems="10"
+        android:id="@+id/nombre"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Referencia:"
+        android:ems="10"
+        android:id="@+id/referencia"
+        android:layout_below="@+id/nombre"
+        android:layout_alignLeft="@+id/nombre"
+        android:layout_alignStart="@+id/nombre"
+        android:layout_alignRight="@+id/nombre"
+        android:layout_alignEnd="@+id/nombre" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Imagen:"
+        android:ems="10"
+        android:id="@+id/imagen"
+        android:layout_below="@+id/referencia"
+        android:layout_alignLeft="@+id/referencia"
+        android:layout_alignStart="@+id/referencia"
+        android:layout_alignRight="@+id/referencia"
+        android:layout_alignEnd="@+id/referencia" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:text="Color:"
+        android:ems="10"
+        android:id="@+id/color"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/imagen"
+        android:layout_alignLeft="@+id/imagen"
+        android:layout_alignStart="@+id/imagen" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/precio"
+        android:text="Precio:"
+        android:layout_below="@+id/color"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tipo"
+        android:layout_below="@+id/precio"
+        android:spinnerMode="dropdown"
+        android:layout_toRightOf="@+id/t" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        android:ems="10"
+        android:id="@+id/descripcion"
+        android:text="Descripción:"
+        android:layout_below="@+id/fabs"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Tipo:"
+        android:id="@+id/t"
+        android:layout_above="@+id/descripcion"
+        android:layout_alignTop="@+id/tipo"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="false"
+        android:textIsSelectable="false" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/fabs"
+        android:layout_below="@+id/tipo"
+        android:spinnerMode="dropdown"
+        android:layout_toRightOf="@+id/textView"
+        android:layout_toEndOf="@+id/textView" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Fabricante:"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/fabs"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/url"
+        android:layout_below="@+id/descripcion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="URL:"
+        android:layout_alignRight="@+id/descripcion"
+        android:layout_alignEnd="@+id/descripcion" />
+
+</RelativeLayout>

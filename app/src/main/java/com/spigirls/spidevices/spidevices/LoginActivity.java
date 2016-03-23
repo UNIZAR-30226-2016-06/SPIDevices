@@ -104,7 +104,7 @@ public class LoginActivity extends AppCompatActivity  {
         }
         if (shouldShowRequestPermissionRationale(READ_CONTACTS)) {
             Snackbar.make(mEmailView, R.string.permission_rationale, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(android.R.string.ok, new View.OnClickListener() {
+                    .setAction(android.R.string.ok, new OnClickListener() {
                         @Override
                         @TargetApi(Build.VERSION_CODES.M)
                         public void onClick(View v) {
@@ -189,10 +189,6 @@ public class LoginActivity extends AppCompatActivity  {
     public class LoginAdmin extends AsyncTask<Void,Void,Boolean> {
 
         private Connection connection = null;
-        private final static String URL = "jdbc:mysql://db4free.net:3306/spidevices";
-        private final static String USER = "spigirls";
-        private final static String PASS = "spigirls16";
-
 
         private final String mEmail;
         private final String mPassword;
@@ -206,8 +202,7 @@ public class LoginActivity extends AppCompatActivity  {
         protected Boolean doInBackground(Void ... params) {
             Boolean admin =false;
             try{
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                connection = DriverManager.getConnection(URL, USER, PASS);
+                connection = BDConnection.getInstance().getConnection();
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery("SELECT contraseña from Administradores WHERE Email='"+mEmail+"'");
 
