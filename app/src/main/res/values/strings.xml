@@ -16,6 +16,8 @@
     <string name="title_activity_main">SPIDevices</string>
     <string name="title_activity_anadir_producto">Añadir Nuevo Producto</string>
     <string name="title_activity_anadir_fabricante">Añadir Fabricante</string>
+    <string name="title_activity_borrar_fabricante">Borrar Fabricante</string>
+    <string name="title_activity_borrar_producto">Borrar Producto</string>
     <string name="error_invalid_nombre">El fabricante ya existe</string>
 
 </resources>

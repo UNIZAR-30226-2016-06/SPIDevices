@@ -24,6 +24,14 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button eliminarProd = (Button) findViewById(R.id.eliminar_producto);
+        eliminarProd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                eliminarProd();
+            }
+        });
+
         Button anadirFab = (Button) findViewById(R.id.añadir_fabricante);
         anadirFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -31,6 +39,15 @@ public class MainActivity extends AppCompatActivity {
                 anadirFab();
             }
         });
+
+        Button eliminarFab = (Button) findViewById(R.id.eliminar_fabricante);
+        eliminarFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                eliminarFab();
+            }
+        });
+
 
     }
 
@@ -41,6 +58,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void anadirFab(){
         Intent i = new Intent(this, AnadirFabricante.class);
+        startActivity(i);
+    }
+
+    private void eliminarFab(){
+        Intent i = new Intent(this, BorrarFabricante.class);
+        startActivity(i);
+    }
+
+    private void eliminarProd(){
+        Intent i = new Intent(this, BorrarProducto.class);
         startActivity(i);
     }
 

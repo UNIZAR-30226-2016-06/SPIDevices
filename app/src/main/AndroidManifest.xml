@@ -45,6 +45,20 @@
             android:theme="@style/AppTheme.NoActionBar">
 
         </activity>
+
+        <activity
+            android:name=".BorrarFabricante"
+            android:label="@string/title_activity_borrar_fabricante"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+
+        <activity
+            android:name=".BorrarProducto"
+            android:label="@string/title_activity_borrar_producto"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
     </application>
 
 </manifest>
