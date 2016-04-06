@@ -151,7 +151,7 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/url"
+        android:id="@+id/c"
         android:layout_below="@+id/descripcion"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"

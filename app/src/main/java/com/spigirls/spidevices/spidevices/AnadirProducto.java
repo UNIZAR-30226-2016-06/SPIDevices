@@ -52,7 +52,7 @@ public class AnadirProducto extends AppCompatActivity {
         mImagen = (EditText) findViewById(R.id.imagen);
         mColor = (EditText) findViewById(R.id.color);
         mPrecio = (EditText) findViewById(R.id.precio);
-        mUrl = (EditText)findViewById(R.id.url);
+        mUrl = (EditText)findViewById(R.id.c);
 
         Button añadir_button = (Button) findViewById(R.id.añadir_button);
 
@@ -184,7 +184,7 @@ public class AnadirProducto extends AppCompatActivity {
                 while(rs.next()){
                     cif=rs.getString("CIF");
                 }
-                int i = st.executeUpdate("INSERT INTO Producto (Referencia, Nombre, " +
+               int i = st.executeUpdate("INSERT INTO Producto (Referencia, Nombre, " +
                         " Descripcion, Precio, Color, Fabricante, Administrador, Foto," +
                         " URL, Tipo) VALUES ('" + referencia2 + "','" + nombre2 + "'"+
                         ",'" + descripcion2 + "','" + precio2 + "','" + color2 + "','" + cif +

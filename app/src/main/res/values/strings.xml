@@ -19,5 +19,6 @@
     <string name="title_activity_borrar_fabricante">Borrar Fabricante</string>
     <string name="title_activity_borrar_producto">Borrar Producto</string>
     <string name="error_invalid_nombre">El fabricante ya existe</string>
+    <string name="title_activity_producto">Producto</string>
 
 </resources>

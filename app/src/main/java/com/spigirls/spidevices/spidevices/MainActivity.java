@@ -48,6 +48,18 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button verProd = (Button) findViewById(R.id.ver_producto);
+        verProd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(MainActivity.this, InfoProducto.class);
+                intent.putExtra("referencia", "123456");
+                startActivity(intent);
+
+            }
+        });
+
 
     }
 

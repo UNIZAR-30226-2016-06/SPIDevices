@@ -1,10 +1,7 @@
 package com.spigirls.spidevices.spidevices;
 
-import com.mysql.jdbc.Driver;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.SQLException;
 
 /**
  * Created by YolandaGC on 18/3/16.
