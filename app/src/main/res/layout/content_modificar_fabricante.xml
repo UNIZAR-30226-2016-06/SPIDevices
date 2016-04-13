@@ -9,7 +9,9 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.spigirls.spidevices.spidevices.AnadirFabricante">
+    tools:context=".ModificarFabricante"
+    tools:showIn="@layout/activity_modificar_fabricante"
+    android:background="@drawable/logo_sincolor">
 
     <AutoCompleteTextView
         android:layout_width="wrap_content"
@@ -22,12 +24,34 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nombref"
+        android:layout_below="@+id/cif"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="Nombre" />
+
+    <AutoCompleteTextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/urlf"
+        android:layout_below="@+id/nombref"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:text="URL" />
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Eliminar fabricante"
-        android:id="@+id/eliminarFab"
-        android:layout_below="@+id/cif"
+        android:text="Modificar fabricante"
+        android:id="@+id/modificar_fabricante"
+        android:layout_below="@+id/urlf"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 </RelativeLayout>
