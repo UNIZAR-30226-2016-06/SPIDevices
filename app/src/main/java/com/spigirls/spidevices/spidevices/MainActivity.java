@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -60,6 +61,15 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        Button modificarFab = (Button) findViewById(R.id.modificar_fabricante);
+        modificarFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                modificarFab();
+
+            }
+        });
 
     }
 
@@ -83,4 +93,8 @@ public class MainActivity extends AppCompatActivity {
         startActivity(i);
     }
 
+    private void modificarFab(){
+        Intent i = new Intent(this, ModificarFabricante.class);
+        startActivity(i);
+    }
 }

@@ -14,36 +14,44 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
-public class BorrarFabricante extends AppCompatActivity {
+public class ModificarFabricante extends AppCompatActivity{
 
     private String cif;
     private EditText cif1;
+    private String nombre;
+    private EditText nombre1;
+    private String url;
+    private EditText url1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_borrar_fabricante);
+        setContentView(R.layout.activity_anadir_fabricante);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         cif1 = (EditText) findViewById(R.id.cif);
+        nombre1 = (EditText) findViewById(R.id.nombref);
+        url1 = (EditText) findViewById(R.id.urlf);
 
-        Button eliminarFab = (Button) findViewById(R.id.eliminarFab);
+        Button modificarFab = (Button) findViewById(R.id.anadirfab);
+        modificarFab.setText("MODIFICAR");
 
-        eliminarFab.setOnClickListener(new View.OnClickListener() {
+        modificarFab.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                deleteFab();
+                updateFab();
             }
 
         });
 
     }
-
-    private void deleteFab(){
+    private void updateFab(){
         cif=cif1.getText().toString();
+        nombre=nombre1.getText().toString();
+        url=url1.getText().toString();
 
-        Fabricante f = (Fabricante) new Fabricante(null, cif, null).execute();
+        Fabricante f = (Fabricante) new Fabricante(nombre, cif, url).execute();
 
         try{
             boolean c=f.get();
@@ -51,8 +59,8 @@ public class BorrarFabricante extends AppCompatActivity {
                 AlertDialog alertDialog;
                 alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Error");
-                alertDialog.setMessage("El fabricante que ha intentado borrar ya " +
-                        "no esta en la base de datos.");
+                alertDialog.setMessage("El fabricante que ha intentado no " +
+                        "exite en la base de datos.");
                 alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -70,15 +78,14 @@ public class BorrarFabricante extends AppCompatActivity {
 
         }
     }
-
     public class Fabricante extends AsyncTask<Void,Void,Boolean> {
 
-        private final String nombre;
+        private final String nNombre;
         private final String cif;
         private final String url;
 
         Fabricante(String nom, String cif, String url){
-            nombre=nom;
+            this.nNombre =nom;
             this.cif=cif;
             this.url=url;
         }
@@ -89,15 +96,13 @@ public class BorrarFabricante extends AppCompatActivity {
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
-                int i = st.executeUpdate("DELETE from Fabricante " +
-                        "where CIF='"+cif+"'");
+                int i = st.executeUpdate("UPDATE Fabricante set Nombre='" + nNombre + "', URL='" + url + "' " +
+                        "where CIF='" + cif + "'");
                 return (i>0);
             }
             catch(Exception e){
                 return false;
             }
         }
-
-
     }
 }

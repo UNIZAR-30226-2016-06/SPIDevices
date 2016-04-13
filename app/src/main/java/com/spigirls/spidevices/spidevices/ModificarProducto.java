@@ -13,30 +13,30 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
-public class AnadirProducto extends AppCompatActivity {
+public class ModificarProducto extends AppCompatActivity{
 
-    private EditText mNombre;
-    private EditText mReferencia;
-    private EditText mDescripcion;
-    private EditText mImagen;
-    private EditText mColor;
-    private EditText mPrecio;
-    private EditText mUrl;
-
-    private String mTipo="Móvil";
-    private String mFabricante ="";
+    private EditText nombre1;
     private String nombre;
     private String referencia;
+    private EditText referencia1;
     private String descripcion;
+    private EditText descripcion1;
     private String imagen;
+    private EditText imagen1;
     private String color;
+    private EditText color1;
     private String precio;
+    private EditText precio1;
     private String url;
+    private EditText url1;
+    private String mTipo="Móvil";
+    private String mFabricante ="";
 
 
     @Override
@@ -46,25 +46,26 @@ public class AnadirProducto extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mNombre = (EditText) findViewById(R.id.nombre);
-        mReferencia = (EditText) findViewById(R.id.referencia);
-        mDescripcion = (EditText) findViewById(R.id.descripcion);
-        mImagen = (EditText) findViewById(R.id.imagen);
-        mColor = (EditText) findViewById(R.id.color);
-        mPrecio = (EditText) findViewById(R.id.precio);
-        mUrl = (EditText)findViewById(R.id.c);
+        nombre1 = (EditText) findViewById(R.id.nombre);
+        referencia1 = (EditText) findViewById(R.id.referencia);
+        descripcion1 = (EditText) findViewById(R.id.descripcion);
+        imagen1 = (EditText) findViewById(R.id.imagen);
+        color1 = (EditText) findViewById(R.id.color);
+        precio1 = (EditText) findViewById(R.id.precio);
+        url1 = (EditText)findViewById(R.id.c);
 
-        Button añadir_button = (Button) findViewById(R.id.anadir_button);
+        rellenar();
 
-        añadir_button.setOnClickListener(new View.OnClickListener() {
+        Button modificarProd = (Button) findViewById(R.id.anadir_button);
+        modificarProd.setText("MODIFICAR");
+
+        modificarProd.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-
-                setProducto();
+                updateProduct();
             }
 
         });
-
         Spinner spinner = (Spinner) findViewById(R.id.tipo);
         String[] valores = {"Móvil","Tablet"};
         spinner.setAdapter(new ArrayAdapter<String>(this,
@@ -81,8 +82,8 @@ public class AnadirProducto extends AppCompatActivity {
             }
         });
 
-
-        ObtenerFabricante obF = (ObtenerFabricante) new ObtenerFabricante().execute();
+        String fabric=getIntent().getExtras().getString("fab");
+        ObtenerFabricante obF = (ObtenerFabricante) new ObtenerFabricante(fabric).execute();
         String[] fab=null;
         try{
             fab=obF.get();
@@ -105,17 +106,15 @@ public class AnadirProducto extends AppCompatActivity {
             public void onNothingSelected(AdapterView<?> parent) {
             }
         });
-
     }
-
-    private void setProducto(){
-        nombre = mNombre.getText().toString();
-        referencia = mReferencia.getText().toString();
-        color= mColor.getText().toString();
-        precio = mPrecio.getText().toString();
-        imagen = mImagen.getText().toString();
-        descripcion = mDescripcion.getText().toString();
-        url = mUrl.getText().toString();;
+    private void updateProduct(){
+        nombre = nombre1.getText().toString();
+        referencia = referencia1.getText().toString();
+        color= color1.getText().toString();
+        precio = precio1.getText().toString();
+        imagen = imagen1.getText().toString();
+        descripcion = descripcion1.getText().toString();
+        url = url1.getText().toString();
 
         Producto p = (Producto) new Producto(nombre, referencia, color, precio,
                 imagen, descripcion, url, mTipo, mFabricante).execute();
@@ -126,7 +125,7 @@ public class AnadirProducto extends AppCompatActivity {
                 AlertDialog alertDialog;
                 alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Error");
-                alertDialog.setMessage("El producto que ha intentado insertar ya " +
+                alertDialog.setMessage("El producto que ha intentado modificar no " +
                         "existe en la base de datos.");
                 alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -144,10 +143,25 @@ public class AnadirProducto extends AppCompatActivity {
         }catch (ExecutionException e){
 
         }
-
-
     }
 
+    private void rellenar(){
+        String nom=getIntent().getExtras().getString("nombre");
+        String ref=getIntent().getExtras().getString("ref");
+        String imagen=getIntent().getExtras().getString("imagen");
+        String url=getIntent().getExtras().getString("url");
+        String color=getIntent().getExtras().getString("color");
+        String precio=getIntent().getExtras().getString("precio");
+        String desc=getIntent().getExtras().getString("desc");
+        nombre1.setText(nom);
+        referencia1.setText(ref);
+        url1.setText(url);
+        color1.setText(color);
+        imagen1.setText(imagen);
+        precio1.setText(precio);
+        descripcion1.setText(desc);
+
+    }
     public class Producto extends AsyncTask<Void,Void,Boolean> {
 
         private final String nombre2;
@@ -159,9 +173,10 @@ public class AnadirProducto extends AppCompatActivity {
         private final String tipo2;
         private final String fabricante2;
         private final String url2;
+        private String cif2;
 
         Producto(String nom, String ref, String col, String pre, String img,
-                   String des, String dir, String tip, String fab){
+                 String des, String dir, String tip, String fab){
             nombre2=nom;
             referencia2=ref;
             descripcion2 =des;
@@ -171,6 +186,7 @@ public class AnadirProducto extends AppCompatActivity {
             tipo2=tip;
             fabricante2=fab;
             url2=dir;
+            cif2="";
         }
 
         @Override
@@ -180,15 +196,13 @@ public class AnadirProducto extends AppCompatActivity {
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
                 ResultSet rs = st.executeQuery("SELECT CIF from Fabricante where Nombre='"+fabricante2+"'");
-                String cif="";
                 while(rs.next()){
-                    cif=rs.getString("CIF");
+                    cif2=rs.getString("CIF");
                 }
-               int i = st.executeUpdate("INSERT INTO Producto (Referencia, Nombre, " +
-                        " Descripcion, Precio, Color, Fabricante, Administrador, Foto," +
-                        " URL, Tipo) VALUES ('" + referencia2 + "','" + nombre2 + "'"+
-                        ",'" + descripcion2 + "','" + precio2 + "','" + color2 + "','" + cif +
-                        "','1234567','"+imagen2+"','"+url2+"','"+tipo2+"')");
+                int i = st.executeUpdate("UPDATE Producto set Nombre ='" + nombre2 + "', Descripcion = '" + descripcion2 + "',"+
+                        " Precio = '" + precio2 + "', Color = '" + color2 + "', Fabricante = '"+ cif2 +"', " +
+                        " Administrador = '1234567', Foto = '"+imagen2+"', URL = '"+url2+"', Tipo = '"+tipo2+"'"+
+                        " where Referencia = '"+referencia2+"'");
                 return (i>0);
             }
             catch(Exception e){
@@ -196,10 +210,11 @@ public class AnadirProducto extends AppCompatActivity {
             }
         }
     }
-
     public class ObtenerFabricante extends AsyncTask<Void,Void,String[]>{
 
-        ObtenerFabricante(){
+        String fab;
+        ObtenerFabricante(String f){
+            fab=f;
         }
 
         @Override
@@ -208,16 +223,25 @@ public class AnadirProducto extends AppCompatActivity {
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT Nombre FROM Fabricante");
+                ResultSet rs = st.executeQuery("SELECT CIF,Nombre FROM Fabricante");
                 String[] fabs = new String[100];
+                String f="";
                 int i = 0;
                 while(rs.next()){
+                    if(rs.getString("CIF").compareTo(fab)==0){
+                        f=rs.getString("Nombre");
+                    }
                     fabs[i] = rs.getString("Nombre");
                     i++;
                 }
                 String[] s = new String[i];
                 for(i = 0; i<s.length; i++){
-                    s[i]=fabs[i];
+                    if(fabs[i].compareTo(f)==0){
+                        s[i]=s[0];
+                        s[0]=f;
+                    }else {
+                        s[i] = fabs[i];
+                    }
                 }
                 return s;
             }

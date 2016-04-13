@@ -45,6 +45,7 @@ public class InfoProducto extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
         referencia=getIntent().getExtras().getString("referencia");
 
         mNombre = (TextView) findViewById(R.id.nombre);
@@ -77,15 +78,28 @@ public class InfoProducto extends AppCompatActivity {
             }
         });
 
-        Button modificarProd = (Button) findViewById(R.id.modificar_producto);
+        final Button modificarProd = (Button) findViewById(R.id.modificar_producto);
 
         modificarProd.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-
+                modificarProd();
             }
         });
 
+    }
+
+    private void modificarProd(){
+        Intent i = new Intent(InfoProducto.this,ModificarProducto.class);
+        i.putExtra("nombre",mNombre.getText());
+        i.putExtra("ref",mReferencia.getText());
+        i.putExtra("fab",mFabricante.getText());
+        i.putExtra("color",mColor.getText());
+        i.putExtra("precio",mPrecio.getText());
+        i.putExtra("imagen",mImagen.getTag().toString());
+        i.putExtra("url",url);
+        i.putExtra("desc",mDescripcion.getText());
+        startActivity(i);
     }
 
     /*
@@ -127,6 +141,7 @@ public class InfoProducto extends AppCompatActivity {
                 try{
                     bm=c.get();
                     if(bm!=null){
+                        mImagen.setTag(elementos[6]);
                         mImagen.setAdjustViewBounds(true);
                         mImagen.setImageBitmap(bm);
                     }
