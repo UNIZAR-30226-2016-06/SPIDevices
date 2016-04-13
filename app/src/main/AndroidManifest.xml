@@ -49,6 +49,14 @@
             android:name=".InfoProducto"
             android:label="@string/title_activity_producto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ModificarProducto"
+            android:label="@string/title_activity_modificar_producto"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
+        <activity
+            android:name=".ModificarFabricante"
+            android:label="@string/title_activity_modificar_fabricante"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
