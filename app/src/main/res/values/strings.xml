@@ -18,6 +18,8 @@
     <string name="title_activity_anadir_fabricante">Añadir Fabricante</string>
     <string name="title_activity_borrar_fabricante">Borrar Fabricante</string>
     <string name="title_activity_borrar_producto">Borrar Producto</string>
+    <string name="title_activity_modificar_fabricante">Modificar Fabricante</string>
+    <string name="title_activity_modificar_producto">Modificar Producto</string>
     <string name="error_invalid_nombre">El fabricante ya existe</string>
     <string name="title_activity_producto">Producto</string>
 
