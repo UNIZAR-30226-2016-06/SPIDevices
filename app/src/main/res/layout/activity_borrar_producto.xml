@@ -21,6 +21,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_borrar_producto" />
+    <include layout="@layout/content_borrarr_producto" />
 
 </android.support.design.widget.CoordinatorLayout>

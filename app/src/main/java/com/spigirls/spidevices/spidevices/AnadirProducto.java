@@ -54,7 +54,7 @@ public class AnadirProducto extends AppCompatActivity {
         mPrecio = (EditText) findViewById(R.id.precio);
         mUrl = (EditText)findViewById(R.id.c);
 
-        Button añadir_button = (Button) findViewById(R.id.anadir_button);
+        Button añadir_button = (Button) findViewById(R.id.añadir_button);
 
         añadir_button.setOnClickListener(new View.OnClickListener() {
 

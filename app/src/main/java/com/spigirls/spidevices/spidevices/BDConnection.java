@@ -11,8 +11,8 @@ public class BDConnection {
     private static BDConnection instance = null;
     private Connection connection = null;
     private final static String URL = "jdbc:mysql://db4free.net:3306/spidevices";
-    private final static String USER = "";
-    private final static String PASS = "";
+    private final static String USER = "spigirls";
+    private final static String PASS = "spigirls16";
 
     private BDConnection(){}
 

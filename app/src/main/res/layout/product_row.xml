@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="?android:attr/listPreferredItemHeight">
+
+    <TextView
+        android:layout_width="190dp"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:text="nombre"
+        android:id="@+id/row_nombre"
+        android:layout_alignBottom="@+id/imageView"
+        android:layout_toLeftOf="@+id/row_precio"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:paddingTop="20dp"/>
+
+    <TextView
+        android:layout_width="120dp"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:text="precio"
+        android:id="@+id/row_precio"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignBottom="@+id/row_nombre"
+        android:paddingTop="20dp"/>
+
+    <ImageView
+        android:layout_width="80dp"
+        android:layout_height="?android:attr/listPreferredItemHeight"
+        android:id="@+id/imageView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@android:drawable/ic_menu_report_image"/>
+
+</RelativeLayout>

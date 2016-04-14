@@ -37,6 +37,7 @@ public class ModificarProducto extends AppCompatActivity{
     private EditText url1;
     private String mTipo="Móvil";
     private String mFabricante ="";
+    private BeanProducto producto;
 
 
     @Override
@@ -45,6 +46,8 @@ public class ModificarProducto extends AppCompatActivity{
         setContentView(R.layout.activity_anadir_producto);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        producto = (BeanProducto) getIntent().getSerializableExtra("producto");
 
         nombre1 = (EditText) findViewById(R.id.nombre);
         referencia1 = (EditText) findViewById(R.id.referencia);
@@ -56,7 +59,7 @@ public class ModificarProducto extends AppCompatActivity{
 
         rellenar();
 
-        Button modificarProd = (Button) findViewById(R.id.anadir_button);
+        Button modificarProd = (Button) findViewById(R.id.añadir_button);
         modificarProd.setText("MODIFICAR");
 
         modificarProd.setOnClickListener(new View.OnClickListener() {
@@ -82,8 +85,7 @@ public class ModificarProducto extends AppCompatActivity{
             }
         });
 
-        String fabric=getIntent().getExtras().getString("fab");
-        ObtenerFabricante obF = (ObtenerFabricante) new ObtenerFabricante(fabric).execute();
+        ObtenerFabricante obF = (ObtenerFabricante) new ObtenerFabricante(producto.getmFabricante()).execute();
         String[] fab=null;
         try{
             fab=obF.get();
@@ -146,20 +148,13 @@ public class ModificarProducto extends AppCompatActivity{
     }
 
     private void rellenar(){
-        String nom=getIntent().getExtras().getString("nombre");
-        String ref=getIntent().getExtras().getString("ref");
-        String imagen=getIntent().getExtras().getString("imagen");
-        String url=getIntent().getExtras().getString("url");
-        String color=getIntent().getExtras().getString("color");
-        String precio=getIntent().getExtras().getString("precio");
-        String desc=getIntent().getExtras().getString("desc");
-        nombre1.setText(nom);
-        referencia1.setText(ref);
-        url1.setText(url);
-        color1.setText(color);
-        imagen1.setText(imagen);
-        precio1.setText(precio);
-        descripcion1.setText(desc);
+        nombre1.setText(producto.getNombre());
+        referencia1.setText(producto.getReferencia());
+        url1.setText(producto.getUrl());
+        color1.setText(producto.getColor());
+        imagen1.setText(producto.getImagen());
+        precio1.setText(producto.getPrecio());
+        descripcion1.setText(producto.getDescripcion());
 
     }
     public class Producto extends AsyncTask<Void,Void,Boolean> {

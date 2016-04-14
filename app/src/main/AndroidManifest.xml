@@ -28,34 +28,42 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AnadirProducto"
             android:label="@string/title_activity_anadir_producto"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".AnadirFabricante"
             android:label="@string/title_activity_anadir_fabricante"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BorrarFabricante"
             android:label="@string/title_activity_borrar_fabricante"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".BorrarProducto"
             android:label="@string/title_activity_borrar_producto"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".InfoProducto"
             android:label="@string/title_activity_producto"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ListaProductos"
+            android:label="@string/title_activity_lista_productos"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".AdminHome"
+            android:label="@string/title_activity_admin_home"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ModificarProducto"
-            android:label="@string/title_activity_modificar_producto"
+            android:label="Modificar Producto"
             android:theme="@style/AppTheme.NoActionBar"></activity>
         <activity
             android:name=".ModificarFabricante"
-            android:label="@string/title_activity_modificar_fabricante"
+            android:label="Modificar Fabricante"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

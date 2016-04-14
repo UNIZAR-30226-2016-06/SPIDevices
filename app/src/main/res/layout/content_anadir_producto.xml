@@ -16,7 +16,7 @@
     <!-- view for AdMob Interstitial Ad -->
 
     <Button
-        android:id="@+id/anadir_button"
+        android:id="@+id/añadir_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:text="AÑADIR"
@@ -126,6 +126,7 @@
         android:layout_alignTop="@+id/tipo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="false"
         android:textIsSelectable="false" />
 
     <Spinner
@@ -150,13 +151,11 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:text="URL:"
-        android:ems="10"
         android:id="@+id/c"
         android:layout_below="@+id/descripcion"
-        android:layout_alignLeft="@+id/descripcion"
-        android:layout_alignStart="@+id/descripcion"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="URL:"
         android:layout_alignRight="@+id/descripcion"
         android:layout_alignEnd="@+id/descripcion" />
 

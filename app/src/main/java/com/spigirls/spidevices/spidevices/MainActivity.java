@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -17,84 +16,11 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Button anadir = (Button) findViewById(R.id.añadir_producto);
-        anadir.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                anadirProd();
-            }
-        });
-
-        Button eliminarProd = (Button) findViewById(R.id.eliminar_producto);
-        eliminarProd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                eliminarProd();
-            }
-        });
-
-        Button anadirFab = (Button) findViewById(R.id.añadir_fabricante);
-        anadirFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                anadirFab();
-            }
-        });
-
-        Button eliminarFab = (Button) findViewById(R.id.eliminar_fabricante);
-        eliminarFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                eliminarFab();
-            }
-        });
-
-        Button verProd = (Button) findViewById(R.id.ver_producto);
-        verProd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(MainActivity.this, InfoProducto.class);
-                intent.putExtra("referencia", "123456");
-                startActivity(intent);
-
-            }
-        });
-
-        Button modificarFab = (Button) findViewById(R.id.modificar_fabricante);
-        modificarFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                modificarFab();
-
-            }
-        });
-
+        cargarLista();
     }
 
-    private void anadirProd(){
-        Intent i = new Intent(this, AnadirProducto.class);
-        startActivity(i);
-    }
-
-    private void anadirFab(){
-        Intent i = new Intent(this, AnadirFabricante.class);
-        startActivity(i);
-    }
-
-    private void eliminarFab(){
-        Intent i = new Intent(this, BorrarFabricante.class);
-        startActivity(i);
-    }
-
-    private void eliminarProd(){
-        Intent i = new Intent(this, BorrarProducto.class);
-        startActivity(i);
-    }
-
-    private void modificarFab(){
-        Intent i = new Intent(this, ModificarFabricante.class);
-        startActivity(i);
+    private void cargarLista(){
+        Intent intent = new Intent(MainActivity.this, ListaProductos.class);
+        startActivity(intent);
     }
 }

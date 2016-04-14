@@ -3,7 +3,9 @@ package com.spigirls.spidevices.spidevices;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -49,6 +51,7 @@ public class LoginActivity extends AppCompatActivity  {
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    public static final String Email = "emailKey";
 
 
     /**
@@ -132,6 +135,11 @@ public class LoginActivity extends AppCompatActivity  {
         try{
             Boolean correcto=l.get();
             if(correcto){
+                SharedPreferences prefs = this.getSharedPreferences(
+                        "com.spigirls.spidevices.spidevices", Context.MODE_PRIVATE);
+
+                prefs.edit().putString("emailKey", email).apply();
+
                 Intent i =  new Intent(this, MainActivity.class);
                 startActivity(i);
             }

@@ -1,8 +1,10 @@
 package com.spigirls.spidevices.spidevices;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -10,7 +12,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Html;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -34,7 +35,7 @@ public class InfoProducto extends AppCompatActivity {
     private ImageView mImagen;
     private TextView mDescripcion;
 
-    private String referencia;
+    private BeanProducto producto;
     private String url;
     private Bitmap bm;
 
@@ -45,8 +46,7 @@ public class InfoProducto extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
-        referencia=getIntent().getExtras().getString("referencia");
+        producto = (BeanProducto)getIntent().getSerializableExtra("producto");
 
         mNombre = (TextView) findViewById(R.id.nombre);
         mReferencia = (TextView) findViewById(R.id.referencia);
@@ -56,16 +56,7 @@ public class InfoProducto extends AppCompatActivity {
         mImagen = (ImageView) findViewById(R.id.imagen);
         mDescripcion = (TextView) findViewById(R.id.descripcion);
 
-        recuperarProducto();
-
-        Button eliminarProd = (Button) findViewById(R.id.eliminar_producto);
-
-        eliminarProd.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                deleteProduct();
-            }
-        });
+        populateFields();
 
         Button comprar = (Button) findViewById(R.id.URL);
 
@@ -78,81 +69,56 @@ public class InfoProducto extends AppCompatActivity {
             }
         });
 
-        final Button modificarProd = (Button) findViewById(R.id.modificar_producto);
+        SharedPreferences prefs = this.getSharedPreferences(
+                "com.spigirls.spidevices.spidevices", Context.MODE_PRIVATE);
 
-        modificarProd.setOnClickListener(new View.OnClickListener() {
+        String email = prefs.getString("emailKey", null);
 
-            public void onClick(View view) {
-                modificarProd();
-            }
-        });
+        Button modificarProd = (Button) findViewById(R.id.modificar_producto);
+
+        Button eliminarProd = (Button) findViewById(R.id.eliminar_producto);
+
+        if(email != null){
+
+            modificarProd.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    modificarProducto();
+
+                }
+            });
+
+            eliminarProd.setOnClickListener(new View.OnClickListener() {
+
+                public void onClick(View view) {
+                    deleteProduct();
+                }
+            });
+        }
+        else{
+            modificarProd.setVisibility(View.INVISIBLE);
+            eliminarProd.setVisibility(View.INVISIBLE);
+        }
 
     }
 
-    private void modificarProd(){
-        Intent i = new Intent(InfoProducto.this,ModificarProducto.class);
-        i.putExtra("nombre",mNombre.getText());
-        i.putExtra("ref",mReferencia.getText());
-        i.putExtra("fab",mFabricante.getText());
-        i.putExtra("color",mColor.getText());
-        i.putExtra("precio",mPrecio.getText());
-        i.putExtra("imagen",mImagen.getTag().toString());
-        i.putExtra("url",url);
-        i.putExtra("desc",mDescripcion.getText());
-        startActivity(i);
-    }
-
-    /*
-    Ejecuta un nuevo hilo que accede a la base de datos para recuperar la información
-    del producto que se va a mostrar.
-    Si se realiza todo de forma correcta muestra la pantalla del producto sino vuelve
-    a la actividad principal.
-     */
-    private void recuperarProducto(){
-        RecProducto p = (RecProducto) new RecProducto(referencia).execute();
-
+    private void populateFields(){
+        mNombre.setText(producto.getNombre());
+        mReferencia.setText(producto.getReferencia());
+        mFabricante.setText(producto.getmFabricante());
+        mColor.setText(producto.getColor());
+        mPrecio.setText(producto.getPrecio()+" €");
+        url=producto.getUrl();
+        mDescripcion.setText(producto.getDescripcion());
+        CargarImagen c=(CargarImagen) new CargarImagen(producto.getImagen()).execute();
         try{
-            String[] elementos=p.get();
-            if(elementos==null){
-
+            bm=c.get();
+            if(bm!=null){
+                mImagen.setAdjustViewBounds(true);
+                mImagen.setImageBitmap(bm);
             }
-            if(elementos==null || elementos[0]==null){
-                AlertDialog alertDialog;
-                alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage("El producto no existe.");
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                        irMain();
-                    }
-                });
-                alertDialog.show();
-            }
-            else{
-                mNombre.setText(elementos[0]);
-                mReferencia.setText(referencia);
-                mFabricante.setText(elementos[5]);
-                mColor.setText(elementos[3]);
-                mPrecio.setText(elementos[2]);
-                url=elementos[4];
-                mDescripcion.setText(elementos[1]);
-                CargarImagen c=(CargarImagen) new CargarImagen(elementos[6]).execute();
-                try{
-                    bm=c.get();
-                    if(bm!=null){
-                        mImagen.setTag(elementos[6]);
-                        mImagen.setAdjustViewBounds(true);
-                        mImagen.setImageBitmap(bm);
-                    }
-                }
-                catch(Exception e){
-
-                }
-            }
-        }catch (InterruptedException e){
-
-        }catch (ExecutionException e){
+        }
+        catch(Exception e){
 
         }
     }
@@ -161,7 +127,7 @@ public class InfoProducto extends AppCompatActivity {
     Método que ejecuta un nuevo hilo que accede a la base de datos y borra el producto.
      */
     private void borrar(){
-        DelProducto p = (DelProducto) new DelProducto(referencia).execute();
+        DelProducto p = (DelProducto) new DelProducto(producto.getReferencia()).execute();
 
         try{
             boolean c=p.get();
@@ -189,6 +155,12 @@ public class InfoProducto extends AppCompatActivity {
         }
     }
 
+    private void modificarProducto(){
+        Intent i = new Intent(InfoProducto.this,ModificarProducto.class);
+        i.putExtra("producto",producto);
+        startActivity(i);
+    }
+
     /*
     Método que inicia una nueva actividad principal.
      */
@@ -202,11 +174,10 @@ public class InfoProducto extends AppCompatActivity {
     definitivamente.
      */
     private void deleteProduct(){
-        referencia = mReferencia.getText().toString();
         AlertDialog.Builder alertDialog;
         alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle("¿Está seguro?");
-        alertDialog.setMessage("Va a borrar el producto con referencia: " + referencia + ". " +
+        alertDialog.setMessage("Va a borrar el producto con referencia: " + producto.getReferencia() + ". " +
                 "Pulse confirmar para eliminarlo definitivamente.");
         alertDialog.setPositiveButton("Confirmar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int which) {
@@ -253,44 +224,6 @@ public class InfoProducto extends AppCompatActivity {
     }
 
     /*
-    Clase que ejecuta un hilo para recuperar los campos de un producto de la base de datos.
-     */
-    public class RecProducto extends AsyncTask<Void,Void,String[]>{
-
-        private final String referencia2;
-
-        RecProducto(String ref){
-            referencia2=ref;
-        }
-
-        @Override
-        protected String[] doInBackground(Void ... params) {
-            try{
-                BDConnection bd = BDConnection.getInstance();
-                Connection connection = bd.getConnection();
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT Nombre, Descripcion, Precio," +
-                        " Color, URL, Fabricante, Foto from Producto WHERE " +
-                        "Referencia = '" + referencia2 + "'");
-                String[] array = new String[8];
-                while(rs.next()){
-                    array[0] = rs.getString("Nombre");
-                    array[1] = rs.getString("Descripcion");
-                    array[2] = rs.getString("Precio");
-                    array[3] = rs.getString("Color");
-                    array[4] = rs.getString("URL");
-                    array[5] = rs.getString("Fabricante");
-                    array[6] = rs.getString("Foto");
-                }
-                return array;
-            }
-            catch(Exception e){
-                return null;
-            }
-        }
-    }
-
-    /*
     Clase que ejecuta un hilo que borra un producto de la base de datos.
      */
     public class DelProducto extends AsyncTask<Void,Void,Boolean> {
@@ -322,6 +255,25 @@ public class InfoProducto extends AppCompatActivity {
         super.onResume();
         mImagen.setAdjustViewBounds(true);
         mImagen.setImageBitmap(bm);
+
+        SharedPreferences prefs = this.getSharedPreferences(
+                "com.spigirls.spidevices.spidevices", Context.MODE_PRIVATE);
+
+        String email = prefs.getString("emailKey", null);
+
+        Button modificarProd = (Button) findViewById(R.id.modificar_producto);
+
+        Button eliminarProd = (Button) findViewById(R.id.eliminar_producto);
+
+        if(email != null){
+            modificarProd.setVisibility(View.VISIBLE);
+            eliminarProd.setVisibility(View.VISIBLE);
+
+        }
+        else{
+            modificarProd.setVisibility(View.INVISIBLE);
+            eliminarProd.setVisibility(View.INVISIBLE);
+        }
     }
 
 }
