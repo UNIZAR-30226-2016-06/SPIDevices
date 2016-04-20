@@ -19,7 +19,7 @@
             android:layout_alignParentTop="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
-            android:text="CIF"
+            android:hint="CIF"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
@@ -32,7 +32,8 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:text="Nombre" />
+            android:hint="Nombre"
+        />
 
 
     <AutoCompleteTextView
@@ -44,7 +45,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:text="URL" />
+            android:hint="URL" />
 
     <Button
         android:layout_width="wrap_content"
@@ -53,5 +54,5 @@
         android:id="@+id/anadirfab"
         android:layout_below="@+id/urlf"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true" />zz
 </RelativeLayout>

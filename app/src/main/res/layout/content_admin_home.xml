@@ -53,8 +53,10 @@
         android:layout_height="wrap_content"
         android:text="Cerrar sesión"
         android:id="@+id/button_cerrar_sesion"
-        android:layout_below="@+id/eliminar_fabricante"
-        android:layout_centerHorizontal="true" />
+        android:layout_alignParentBottom="true"
+        android:layout_alignLeft="@+id/ini_sesion"
+        android:layout_alignStart="@+id/ini_sesion"
+        android:layout_marginBottom="61dp" />
 
     <Button
         android:layout_width="wrap_content"
@@ -62,15 +64,14 @@
         android:text="Inicar sesion"
         android:id="@+id/ini_sesion"
         android:layout_alignParentTop="true"
-        android:layout_alignRight="@+id/button_cerrar_sesion"
-        android:layout_alignEnd="@+id/button_cerrar_sesion" />
+        android:layout_centerHorizontal="true" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="modificar fabricante"
         android:id="@+id/modificar_fabricante"
-        android:layout_centerVertical="true"
+        android:layout_below="@+id/eliminar_fabricante"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
