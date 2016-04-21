@@ -8,10 +8,9 @@
         android:text="nombre"
         android:id="@+id/row_nombre"
         android:layout_alignBottom="@+id/imageView"
-        android:layout_toLeftOf="@+id/row_precio"
         android:layout_toRightOf="@+id/imageView"
-        android:layout_toEndOf="@+id/imageView"
-        android:paddingTop="20dp"/>
+        android:paddingTop="20dp"
+        android:layout_alignParentStart="false" />
 
     <TextView
         android:layout_width="120dp"
@@ -19,10 +18,12 @@
         android:text="precio"
         android:id="@+id/row_precio"
         android:layout_alignParentTop="true"
+        android:layout_alignBottom="@+id/row_nombre"
+        android:paddingTop="20dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_alignBottom="@+id/row_nombre"
-        android:paddingTop="20dp"/>
+        android:layout_alignParentStart="false"
+        android:layout_alignRight="@id/row_nombre"/>
 
     <ImageView
         android:layout_width="80dp"

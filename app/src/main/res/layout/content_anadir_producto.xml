@@ -114,7 +114,8 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/añadir_button" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -122,12 +123,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Tipo:"
         android:id="@+id/t"
-        android:layout_above="@+id/descripcion"
         android:layout_alignTop="@+id/tipo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentEnd="false"
-        android:textIsSelectable="false" />
+        android:textIsSelectable="false"
+        android:layout_above="@+id/textView" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -147,16 +148,29 @@
         android:layout_alignTop="@+id/fabs"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
-
-    <EditText
+    <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/c"
-        android:layout_below="@+id/descripcion"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:hint="URL:"
-        android:layout_alignRight="@+id/descripcion"
-        android:layout_alignEnd="@+id/descripcion" />
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:id="@+id/des"
+        android:layout_alignTop="@+id/textView2"
+        android:layout_toRightOf="@+id/textView2"
+        android:layout_alignRight="@+id/fabricante"
+        android:layout_alignEnd="@+id/fabricante"
+        android:text="Descripción"
+        android:maxLength="300"
+        android:layout_above="@+id/precio" >
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/c"
+            android:layout_below="@+id/descripcion"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:hint="URL:"
+            android:layout_alignRight="@+id/descripcion"
+            android:layout_alignEnd="@+id/descripcion" />
+    </ScrollView>
 
 </RelativeLayout>

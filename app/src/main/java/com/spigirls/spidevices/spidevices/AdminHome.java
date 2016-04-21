@@ -10,8 +10,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 
 public class AdminHome extends AppCompatActivity {
+
+    TextView nombre;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +22,7 @@ public class AdminHome extends AppCompatActivity {
         setContentView(R.layout.activity_admin_home);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        nombre = (TextView) findViewById(R.id.hola);
 
         Button anadir = (Button) findViewById(R.id.añadir_producto);
         anadir.setOnClickListener(new View.OnClickListener() {
@@ -92,6 +96,7 @@ public class AdminHome extends AppCompatActivity {
             cerraSesion.setVisibility(View.INVISIBLE);
         }
         else{
+            nombre.append(" "+email);
             iniSesion.setVisibility(View.INVISIBLE);
         }
 

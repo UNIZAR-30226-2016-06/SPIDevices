@@ -38,6 +38,7 @@ public class InfoProducto extends AppCompatActivity {
     private BeanProducto producto;
     private String url;
     private Bitmap bm;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +46,7 @@ public class InfoProducto extends AppCompatActivity {
         setContentView(R.layout.activity_producto);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        context = this;
         producto = (BeanProducto)getIntent().getSerializableExtra("producto");
 
         mNombre = (TextView) findViewById(R.id.nombre);
@@ -127,32 +128,42 @@ public class InfoProducto extends AppCompatActivity {
     Método que ejecuta un nuevo hilo que accede a la base de datos y borra el producto.
      */
     private void borrar(){
-        DelProducto p = (DelProducto) new DelProducto(producto.getReferencia()).execute();
+        irMain();
+        Thread hilo1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        try{
-            boolean c=p.get();
-            if(!c){
-                AlertDialog alertDialog;
-                alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage("El producto que ha intentado borrar no " +
-                        "existe.");
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
+                DelProducto p = (DelProducto) new DelProducto(producto.getReferencia()).execute();
+
+                try{
+                    boolean c=p.get();
+                    if(!c){
+                        AlertDialog alertDialog;
+                        alertDialog = new AlertDialog.Builder(context).create();
+                        alertDialog.setTitle("Error");
+                        alertDialog.setMessage("El producto que ha intentado borrar no " +
+                                "existe.");
+                        alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                                irMain();
+                            }
+                        });
+                        alertDialog.show();
+                    }
+                    else{
                         irMain();
                     }
-                });
-                alertDialog.show();
-            }
-            else{
-               irMain();
-            }
-        }catch (InterruptedException e){
+                }catch (InterruptedException e){
 
-        }catch (ExecutionException e){
+                }catch (ExecutionException e){
 
-        }
+                }
+            }
+        });
+        hilo1.start();
+
+        irMain();
     }
 
     private void modificarProducto(){

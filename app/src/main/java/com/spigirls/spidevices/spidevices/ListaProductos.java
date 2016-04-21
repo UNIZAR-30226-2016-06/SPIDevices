@@ -36,6 +36,8 @@ public class ListaProductos extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        l = (List<BeanProducto>)getIntent().getSerializableExtra("lista");
+
         mList = (ListView)findViewById(R.id.list);
         posicion = 0;
         fillData();
@@ -56,17 +58,9 @@ public class ListaProductos extends AppCompatActivity {
 
     private void fillData(){
 
-        RecProductos p = (RecProductos) new RecProductos().execute();
-
-        try{
-            l=p.get();
-            if(l != null){
-                mList.setAdapter(new AdaptadorProducto(this,l));
-                mList.setSelection(posicion);
-            }
-        }
-        catch(Exception e){
-
+        if(l != null){
+            mList.setAdapter(new AdaptadorProducto(this,l));
+            mList.setSelection(posicion);
         }
     }
 
@@ -110,33 +104,6 @@ public class ListaProductos extends AppCompatActivity {
 
         super.onActivityResult(requestCode, resultCode, intent);
         fillData();
-    }
-
-    public class RecProductos extends AsyncTask<Void,Void,List > {
-
-
-        RecProductos(){
-        }
-
-        @Override
-        protected List  doInBackground(Void ... params) {
-            List<BeanProducto>  k=new ArrayList<BeanProducto>();
-            try{
-                BDConnection bd = BDConnection.getInstance();
-                Connection connection = bd.getConnection();
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT Referencia, Nombre, Descripcion, Precio," +
-                        " Color, Fabricante, Foto, URL, Tipo from Producto");
-                while(rs.next()){
-                    k.add(new BeanProducto(rs.getString("Tipo"),rs.getString("Fabricante"),rs.getString("Nombre"),rs.getString("Referencia"),rs.getString("Descripcion"),
-                            rs.getString("Foto"),rs.getString("Color"),rs.getString("Precio"),rs.getString("URL")));
-                }
-                return k;
-            }
-            catch(Exception e){
-                return null;
-            }
-        }
     }
 
 }

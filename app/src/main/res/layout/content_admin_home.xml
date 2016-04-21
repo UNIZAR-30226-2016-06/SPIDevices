@@ -17,9 +17,11 @@
         android:layout_height="wrap_content"
         android:text="Añadir Producto"
         android:id="@+id/añadir_producto"
-        android:layout_alignParentTop="true"
+        android:layout_below="@+id/ini_sesion"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignRight="@+id/eliminar_producto"
+        android:layout_alignEnd="@+id/eliminar_producto" />
 
     <Button
         android:layout_width="wrap_content"
@@ -35,18 +37,22 @@
         android:layout_height="wrap_content"
         android:text="Añadir fabricante"
         android:id="@+id/añadir_fabricante"
-        android:layout_below="@+id/añadir_producto"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/añadir_producto"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/añadir_producto"
+        android:layout_toEndOf="@+id/añadir_producto" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Eliminar fabricante"
         android:id="@+id/eliminar_fabricante"
-        android:layout_below="@+id/eliminar_producto"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignTop="@+id/eliminar_producto"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/eliminar_producto"
+        android:layout_toEndOf="@+id/eliminar_producto" />
 
     <Button
         android:layout_width="wrap_content"
@@ -71,7 +77,18 @@
         android:layout_height="wrap_content"
         android:text="modificar fabricante"
         android:id="@+id/modificar_fabricante"
-        android:layout_below="@+id/eliminar_fabricante"
+        android:layout_below="@+id/eliminar_producto"
+        android:layout_toRightOf="@+id/eliminar_producto"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Hola!"
+        android:id="@+id/hola"
+        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
