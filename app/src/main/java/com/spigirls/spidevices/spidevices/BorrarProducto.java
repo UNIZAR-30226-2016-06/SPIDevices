@@ -63,7 +63,7 @@ public class BorrarProducto extends AppCompatActivity {
                 alertDialog.show();
             }
             else{
-                Intent i =  new Intent(this, MainActivity.class);
+                Intent i =  new Intent(this, ListaProductos.class);
                 startActivity(i);
             }
         }catch (InterruptedException e){

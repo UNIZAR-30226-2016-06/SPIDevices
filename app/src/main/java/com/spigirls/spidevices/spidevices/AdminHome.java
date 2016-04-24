@@ -31,6 +31,18 @@ public class AdminHome extends AppCompatActivity {
                 anadirProd();
             }
         });
+        iniciarSesion();
+    }
+
+    private void iniciarSesion(){
+
+        Button anadir = (Button) findViewById(R.id.añadir_producto);
+        anadir.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                anadirProd();
+            }
+        });
 
         Button eliminarProd = (Button) findViewById(R.id.eliminar_producto);
         eliminarProd.setOnClickListener(new View.OnClickListener() {
@@ -129,8 +141,7 @@ public class AdminHome extends AppCompatActivity {
 
         prefs.edit().putString("emailKey", null).apply();
 
-        Intent i = new Intent(this, ListaProductos.class);
-        startActivity(i);
+        finish();
     }
 
     private void iniSesion(){
@@ -141,6 +152,13 @@ public class AdminHome extends AppCompatActivity {
     private void modificarFab(){
         Intent i = new Intent(this, ModificarFabricante.class);
         startActivity(i);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
+
+        super.onActivityResult(requestCode, resultCode, intent);
+        iniciarSesion();
     }
 
 }

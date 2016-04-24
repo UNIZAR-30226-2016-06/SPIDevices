@@ -51,6 +51,7 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ListaProductos"
+            android:windowSoftInputMode="adjustPan"
             android:label="@string/title_activity_lista_productos"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

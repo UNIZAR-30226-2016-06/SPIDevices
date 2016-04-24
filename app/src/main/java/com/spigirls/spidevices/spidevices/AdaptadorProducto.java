@@ -16,7 +16,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by YolandaGC on 13/4/16.
@@ -25,11 +27,14 @@ public class AdaptadorProducto extends BaseAdapter {
 
     private final Activity actividad;
     private final List<BeanProducto> lista;
+    private ArrayList<BeanProducto> arraylist;
 
     public AdaptadorProducto(Activity actividad, List<BeanProducto> lista) {
         super();
         this.actividad = actividad;
         this.lista = lista;
+        this.arraylist = new ArrayList<BeanProducto>();
+        this.arraylist.addAll(lista);
     }
     public View getView(int position, View convertView,
                         ViewGroup parent) {
@@ -62,6 +67,25 @@ public class AdaptadorProducto extends BaseAdapter {
     }
     public long getItemId(int position) {
         return position;
+    }
+
+    // Filter Class
+    public void filter(String charText) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        lista.clear();
+        if (charText.length() == 0) {
+            lista.addAll(arraylist);
+        }
+        else {
+            for (BeanProducto wp : arraylist)
+            {
+                if (wp.getNombre().toLowerCase(Locale.getDefault()).contains(charText))
+                {
+                    lista.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
     }
 
     /*

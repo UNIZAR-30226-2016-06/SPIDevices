@@ -1,23 +1,19 @@
 package com.spigirls.spidevices.spidevices;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.ListView;
-
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ListaProductos extends AppCompatActivity {
 
@@ -27,20 +23,26 @@ public class ListaProductos extends AppCompatActivity {
 
     private ListView mList;
     List<BeanProducto> l;
+    private AdaptadorProducto adapter;
     private int posicion;
+    private EditText inputSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_productos);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setLogo(R.drawable.logo_toolbar);
         setSupportActionBar(toolbar);
 
         l = (List<BeanProducto>)getIntent().getSerializableExtra("lista");
+        adapter= new AdaptadorProducto(this, l);
+        inputSearch = (EditText) findViewById(R.id.buscar);
 
         mList = (ListView)findViewById(R.id.list);
         posicion = 0;
         fillData();
+
 
         mList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,12 +56,37 @@ public class ListaProductos extends AppCompatActivity {
 
             }
         });
+
+        /* Activando el filtro de busqueda */
+        inputSearch.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence arg0, int arg1, int arg2, int arg3) {
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence arg0, int arg1, int arg2,
+                                          int arg3) {
+                // TODO Auto-generated method stub
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable arg0) {
+                // TODO Auto-generated method stub
+                String text = inputSearch.getText().toString().toLowerCase(Locale.getDefault());
+                adapter.filter(text);
+
+            }
+        });
     }
 
     private void fillData(){
 
         if(l != null){
-            mList.setAdapter(new AdaptadorProducto(this,l));
+
+            mList.setAdapter(adapter);
             mList.setSelection(posicion);
         }
     }

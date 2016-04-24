@@ -140,8 +140,7 @@ public class LoginActivity extends AppCompatActivity  {
 
                 prefs.edit().putString("emailKey", email).apply();
 
-                Intent i =  new Intent(this, MainActivity.class);
-                startActivity(i);
+                finish();
             }
         }catch (InterruptedException e){
 

@@ -61,8 +61,7 @@ public class BorrarFabricante extends AppCompatActivity {
                 alertDialog.show();
             }
             else{
-                Intent i =  new Intent(this, MainActivity.class);
-                startActivity(i);
+                finish();
             }
         }catch (InterruptedException e){
 
