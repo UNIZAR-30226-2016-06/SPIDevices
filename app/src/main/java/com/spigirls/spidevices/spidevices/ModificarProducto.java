@@ -2,7 +2,6 @@ package com.spigirls.spidevices.spidevices;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +50,7 @@ public class ModificarProducto extends AppCompatActivity{
 
         nombre1 = (EditText) findViewById(R.id.nombre);
         referencia1 = (EditText) findViewById(R.id.referencia);
-        descripcion1 = (EditText) findViewById(R.id.descripcion);
+        /*descripcion1 = (EditText) findViewById(R.id.descripcion);
         imagen1 = (EditText) findViewById(R.id.imagen);
         color1 = (EditText) findViewById(R.id.color);
         precio1 = (EditText) findViewById(R.id.precio);
@@ -107,7 +106,7 @@ public class ModificarProducto extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
-        });
+        });*/
     }
     private void updateProduct(){
         nombre = nombre1.getText().toString();

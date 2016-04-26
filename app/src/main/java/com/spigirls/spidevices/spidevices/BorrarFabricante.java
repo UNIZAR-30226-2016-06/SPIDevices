@@ -2,7 +2,6 @@ package com.spigirls.spidevices.spidevices;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -43,7 +42,7 @@ public class BorrarFabricante extends AppCompatActivity {
     private void deleteFab(){
         cif=cif1.getText().toString();
 
-        Fabricante f = (Fabricante) new Fabricante(null, cif, null).execute();
+        Fabricante f = (Fabricante) new Fabricante(cif).execute();
 
         try{
             boolean c=f.get();
@@ -72,14 +71,10 @@ public class BorrarFabricante extends AppCompatActivity {
 
     public class Fabricante extends AsyncTask<Void,Void,Boolean> {
 
-        private final String nombre;
         private final String cif;
-        private final String url;
 
-        Fabricante(String nom, String cif, String url){
-            nombre=nom;
+        Fabricante(String cif){
             this.cif=cif;
-            this.url=url;
         }
 
         @Override

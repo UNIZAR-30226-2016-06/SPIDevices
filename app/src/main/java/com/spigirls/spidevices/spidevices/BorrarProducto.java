@@ -8,14 +8,10 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
@@ -44,8 +40,7 @@ public class BorrarProducto extends AppCompatActivity {
     private void deleteProduct(){
         ref = referencia.getText().toString();
 
-        Producto p = (Producto) new Producto(null, ref, null, null,
-                null, null, null, null, null).execute();
+        Producto p = (Producto) new Producto(ref).execute();
 
         try{
             boolean c=p.get();
@@ -76,27 +71,10 @@ public class BorrarProducto extends AppCompatActivity {
 
     public class Producto extends AsyncTask<Void,Void,Boolean> {
 
-        private final String nombre2;
         private final String referencia2;
-        private final String descripcion2;
-        private final String imagen2;
-        private final String color2;
-        private final String precio2;
-        private final String tipo2;
-        private final String fabricante2;
-        private final String url2;
 
-        Producto(String nom, String ref, String col, String pre, String img,
-                 String des, String dir, String tip, String fab){
-            nombre2=nom;
+        Producto(String ref){
             referencia2=ref;
-            descripcion2 =des;
-            imagen2=img;
-            color2=col;
-            precio2=pre;
-            tipo2=tip;
-            fabricante2=fab;
-            url2=dir;
         }
 
         @Override
