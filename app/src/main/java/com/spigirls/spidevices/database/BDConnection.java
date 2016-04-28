@@ -1,4 +1,4 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.database;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,6 +1,7 @@
 package com.spigirls.spidevices.spidevices;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -9,16 +10,26 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Spinner;
+
+import com.spigirls.spidevices.administrador.AdminHome;
+import com.spigirls.spidevices.administrador.LoginActivity;
+import com.spigirls.spidevices.database.AccesoBD;
+import com.spigirls.spidevices.producto.AdaptadorProducto;
+import com.spigirls.spidevices.producto.BeanProducto;
+
 import java.util.List;
 import java.util.Locale;
 
 public class ListaProductos extends AppCompatActivity {
 
     private static final int INIS_ID = Menu.FIRST;
-    private static final int HOME_ID = Menu.FIRST+1;
+    private static final int HOME_ID = Menu.FIRST + 1;
     private Menu menu;
 
     private ListView mList;
@@ -26,6 +37,11 @@ public class ListaProductos extends AppCompatActivity {
     private AdaptadorProducto adapter;
     private int posicion;
     private EditText inputSearch;
+    private String orden = "Nombre";
+    private String busqueda = "Nombre";
+    private String tipo = "Todos";
+    private boolean firstOrden=true;
+    private boolean firstTipo=true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,11 +51,12 @@ public class ListaProductos extends AppCompatActivity {
         toolbar.setLogo(R.drawable.logo_toolbar);
         setSupportActionBar(toolbar);
 
-        l = (List<BeanProducto>)getIntent().getSerializableExtra("lista");
-        adapter= new AdaptadorProducto(this, l);
+        l = (List<BeanProducto>) getIntent().getSerializableExtra("lista");
+        orden = (String) getIntent().getSerializableExtra("Orden");
+        adapter = new AdaptadorProducto(this, l);
         inputSearch = (EditText) findViewById(R.id.buscar);
 
-        mList = (ListView)findViewById(R.id.list);
+        mList = (ListView) findViewById(R.id.list);
         posicion = 0;
         fillData();
 
@@ -56,6 +73,90 @@ public class ListaProductos extends AppCompatActivity {
 
             }
         });
+
+        Spinner spinnerOrden = (Spinner) findViewById(R.id.orden);
+        String[] valores = new String[3];
+        if(orden.equals("Nombre")){
+            valores[0] = "Nombre";
+            valores[1] = "Precio Asc";
+            valores[2] = "Precio Desc";
+        }
+        else if(orden.equals("Precio Asc")){
+            valores[0] = "Precio Asc";
+            valores[1] = "Nombre";
+            valores[2] = "Precio Desc";
+        }
+        else if(orden.equals("Precio Desc")){
+            valores[0] = "Precio Desc";
+            valores[1] = "Nombre";
+            valores[2] = "Precio Asc";
+        }
+        else{
+            valores[0] = "Nombre";
+            valores[1] = "Precio Asc";
+            valores[2] = "Precio Desc";
+        }
+
+        spinnerOrden.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, valores));
+        spinnerOrden.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                orden = (String) adapterView.getItemAtPosition(position);
+                if(firstOrden){
+                    firstOrden=false;
+                }
+                else {
+                    reordenarLista();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        Spinner spinnerBusqueda = (Spinner) findViewById(R.id.buscar_por);
+        String[] valoresb = {"Nombre", "Fabricante", "Referencia"};
+        spinnerBusqueda.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, valoresb));
+        spinnerBusqueda.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                busqueda = (String) adapterView.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+        Spinner spinnerBusquedaTipo = (Spinner) findViewById(R.id.buscar_tipo);
+        String[] valoresbt = {"Todos", "Móvil", "Tablet"};
+        spinnerBusquedaTipo.setAdapter(new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, valoresbt));
+        spinnerBusquedaTipo.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                tipo = (String) adapterView.getItemAtPosition(position);
+                if(firstTipo){
+                    firstTipo=false;
+                }
+                else {
+                    adapter.filterTipo(tipo);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+
+
+
 
         /* Activando el filtro de busqueda */
         inputSearch.addTextChangedListener(new TextWatcher() {
@@ -76,24 +177,40 @@ public class ListaProductos extends AppCompatActivity {
             public void afterTextChanged(Editable arg0) {
                 // TODO Auto-generated method stub
                 String text = inputSearch.getText().toString().toLowerCase(Locale.getDefault());
-                adapter.filter(text);
-
+                if(busqueda.equals("Nombre")){
+                    adapter.filterNombre(text, tipo);
+                }
+                else if(busqueda.equals("Fabricante")){
+                    adapter.filterFabricante(text, tipo);
+                }
+                else if(busqueda.equals("Referencia")){
+                    adapter.filterReferencia(text, tipo);
+                }
+                else{
+                    adapter.filterNombre(text, tipo);
+                }
             }
         });
+
     }
 
-    private void fillData(){
+    private void reordenarLista() {
+        Intent intent = new Intent(this, AccesoBD.class);
+        intent.putExtra("Orden", orden);
+        startActivity(intent);
+    }
 
-        if(l != null){
+    private void fillData() {
 
+        if (l != null) {
             mList.setAdapter(adapter);
             mList.setSelection(posicion);
         }
     }
 
     @Override
-    public boolean onCreateOptionsMenu (Menu menu) {
-        this.menu=menu;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        this.menu = menu;
 
         boolean result = super.onCreateOptionsMenu(menu);
 
@@ -105,8 +222,8 @@ public class ListaProductos extends AppCompatActivity {
     }
 
     @Override
-    public boolean onOptionsItemSelected (MenuItem item) {
-        Intent i =null;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent i = null;
 
         switch (item.getItemId()) {
 
@@ -132,5 +249,4 @@ public class ListaProductos extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, intent);
         fillData();
     }
-
 }

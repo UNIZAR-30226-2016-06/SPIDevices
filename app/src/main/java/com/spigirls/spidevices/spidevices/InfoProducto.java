@@ -16,12 +16,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.spigirls.spidevices.database.BDConnection;
+import com.spigirls.spidevices.producto.BeanProducto;
+import com.spigirls.spidevices.producto.ModificarProducto;
+
 import java.io.BufferedInputStream;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.sql.Connection;
-import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 

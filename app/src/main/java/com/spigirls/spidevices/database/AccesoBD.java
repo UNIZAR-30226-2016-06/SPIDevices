@@ -1,4 +1,4 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.database;
 
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -8,8 +8,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import com.spigirls.spidevices.database.BDConnection;
 import com.spigirls.spidevices.producto.BeanProducto;
+import com.spigirls.spidevices.spidevices.ListaProductos;
+import com.spigirls.spidevices.spidevices.R;
 
 import java.io.Serializable;
 import java.sql.Connection;
@@ -18,16 +19,18 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class AccesoBD extends AppCompatActivity {
 
+    private String orden;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_acceso_bd);
 
+        orden = (String)getIntent().getSerializableExtra("Orden");
 
-        Cargando p = (Cargando) new Cargando(MainActivity.this, ProgressDialog.STYLE_SPINNER).execute();
+        Cargando p = (Cargando) new Cargando(this, ProgressDialog.STYLE_SPINNER, orden).execute();
     }
 
     @Override
@@ -41,10 +44,12 @@ public class MainActivity extends AppCompatActivity {
         private Context mContext;
         ProgressDialog mProgress;
         private int mProgressDialog=0;
+        private String orden;
 
-        Cargando(Context context, int progressDialog){
+        Cargando(Context context, int progressDialog, String ord){
             this.mContext = context;
             this.mProgressDialog = progressDialog;
+            this.orden=ord;
         }
 
         @Override
@@ -76,9 +81,20 @@ public class MainActivity extends AppCompatActivity {
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT P.Referencia, P.Nombre, P.Descripcion, P.Precio," +
+                String query="SELECT P.Referencia, P.Nombre, P.Descripcion, P.Precio," +
                         " P.Color, F.Nombre AS Fabricante, P.Foto, P.URL, P.Tipo from Producto P, Fabricante F where F.CIF" +
-                        "= P.Fabricante order by P.Nombre ");
+                        "= P.Fabricante order by P.Nombre ";
+                if(orden.equals("Precio Asc")){
+                    query="SELECT P.Referencia, P.Nombre, P.Descripcion, P.Precio," +
+                            " P.Color, F.Nombre AS Fabricante, P.Foto, P.URL, P.Tipo from Producto P, Fabricante F where F.CIF" +
+                            "= P.Fabricante order by cast(P.Precio as unsigned), P.Nombre ";
+                }
+                else if(orden.equals("Precio Desc")){
+                    query="SELECT P.Referencia, P.Nombre, P.Descripcion, P.Precio," +
+                            " P.Color, F.Nombre AS Fabricante, P.Foto, P.URL, P.Tipo from Producto P, Fabricante F where F.CIF" +
+                            "= P.Fabricante order by cast(P.Precio as unsigned) DESC, P.Nombre ";
+                }
+                ResultSet rs = st.executeQuery(query);
                 while(rs.next()){
                     i++;
                     publishProgress(i*10);
@@ -88,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 publishProgress((i+1)*10);
                 return k;
             } catch (Exception e) {
-               return null;
+                return null;
             }
 
         }
@@ -98,8 +114,9 @@ public class MainActivity extends AppCompatActivity {
             mProgress.dismiss();
             Intent intent = new Intent(mContext, ListaProductos.class);
             intent.putExtra("lista", (Serializable) result);
-            intent.putExtra("Orden", (Serializable) "Nombre");
+            intent.putExtra("Orden", (Serializable) orden);
             startActivity(intent);
         }
     }
+
 }

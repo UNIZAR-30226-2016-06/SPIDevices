@@ -1,4 +1,4 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.administrador;
 
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +9,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.spigirls.spidevices.producto.AnadirFabricante;
+import com.spigirls.spidevices.producto.AnadirProducto;
+import com.spigirls.spidevices.producto.BorrarFabricante;
+import com.spigirls.spidevices.producto.BorrarProducto;
+import com.spigirls.spidevices.producto.ModificarFabricante;
+import com.spigirls.spidevices.spidevices.R;
 
 public class AdminHome extends AppCompatActivity {
 

@@ -1,4 +1,4 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.producto;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.spigirls.spidevices.spidevices.R;
 
 import java.io.BufferedInputStream;
 import java.io.InputStream;
@@ -35,6 +37,7 @@ public class AdaptadorProducto extends BaseAdapter {
         this.arraylist = new ArrayList<BeanProducto>();
         this.arraylist.addAll(lista);
     }
+
     public View getView(int position, View convertView,
                         ViewGroup parent) {
         LayoutInflater inflater = actividad.getLayoutInflater();
@@ -68,18 +71,76 @@ public class AdaptadorProducto extends BaseAdapter {
         return position;
     }
 
-    // Filter Class
-    public void filter(String charText) {
+    // Filter Class by name
+    public void filterNombre(String charText, String tipo) {
         charText = charText.toLowerCase(Locale.getDefault());
         lista.clear();
         if (charText.length() == 0) {
-            lista.addAll(arraylist);
+            filterTipo(tipo);
         }
         else {
             for (BeanProducto wp : arraylist)
             {
-                if (wp.getNombre().toLowerCase(Locale.getDefault()).contains(charText))
-                {
+                if (wp.getNombre().toLowerCase(Locale.getDefault()).contains(charText)
+                        && (tipo.equals("Todos") || (tipo.equals("Móvil") && wp.esMovil()
+                        || (tipo.equals("Tablet") && !wp.esMovil())))){
+                    lista.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    // Filter Class by fabricante
+    public void filterFabricante(String charText, String tipo) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        lista.clear();
+        if (charText.length() == 0) {
+            filterTipo(tipo);
+        }
+        else {
+            for (BeanProducto wp : arraylist)
+            {
+                if (wp.getmFabricante().toLowerCase(Locale.getDefault()).contains(charText)
+                && (tipo.equals("Todos") || (tipo.equals("Móvil") && wp.esMovil()
+                        || (tipo.equals("Tablet") && !wp.esMovil())))){
+                    lista.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    // Filter Class by reference
+    public void filterReferencia(String charText, String tipo) {
+        charText = charText.toLowerCase(Locale.getDefault());
+        lista.clear();
+        if (charText.length() == 0) {
+            filterTipo(tipo);
+        }
+        else {
+            for (BeanProducto wp : arraylist)
+            {
+                if (wp.getReferencia().toLowerCase(Locale.getDefault()).contains(charText)
+                && (tipo.equals("Todos") || (tipo.equals("Móvil") && wp.esMovil()
+                    || (tipo.equals("Tablet") && !wp.esMovil())))){
+                    lista.add(wp);
+                }
+            }
+        }
+        notifyDataSetChanged();
+    }
+
+    // Filter Class by type
+    public void filterTipo(String tipo) {
+        lista.clear();
+        if(tipo.equals("Todos")){
+            lista.addAll(arraylist);
+        }
+        else{
+            for (BeanProducto wp : arraylist) {
+                if ((tipo.equals("Móvil") && wp.esMovil())
+                        || (tipo.equals("Tablet") && !wp.esMovil())){
                     lista.add(wp);
                 }
             }

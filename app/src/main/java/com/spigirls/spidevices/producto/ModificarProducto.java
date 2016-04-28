@@ -1,7 +1,8 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.producto;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,6 +13,11 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+
+import com.spigirls.spidevices.database.AccesoBD;
+import com.spigirls.spidevices.database.BDConnection;
+import com.spigirls.spidevices.producto.BeanProducto;
+import com.spigirls.spidevices.spidevices.R;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -50,7 +56,7 @@ public class ModificarProducto extends AppCompatActivity{
 
         nombre1 = (EditText) findViewById(R.id.nombre);
         referencia1 = (EditText) findViewById(R.id.referencia);
-        /*descripcion1 = (EditText) findViewById(R.id.descripcion);
+        descripcion1 = (EditText) findViewById(R.id.descripcion);
         imagen1 = (EditText) findViewById(R.id.imagen);
         color1 = (EditText) findViewById(R.id.color);
         precio1 = (EditText) findViewById(R.id.precio);
@@ -106,7 +112,7 @@ public class ModificarProducto extends AppCompatActivity{
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
             }
-        });*/
+        });
     }
     private void updateProduct(){
         nombre = nombre1.getText().toString();
@@ -136,7 +142,9 @@ public class ModificarProducto extends AppCompatActivity{
                 alertDialog.show();
             }
             else{
-                finish();
+                Intent intent = new Intent(this, AccesoBD.class);
+                intent.putExtra("Orden", "Nombre");
+                startActivity(intent);
             }
         }catch (InterruptedException e){
 

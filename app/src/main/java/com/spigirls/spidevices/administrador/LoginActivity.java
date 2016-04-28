@@ -1,9 +1,10 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.administrador;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 
@@ -17,14 +18,16 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.spigirls.spidevices.database.BDConnection;
+import com.spigirls.spidevices.producto.BorrarProducto;
+import com.spigirls.spidevices.spidevices.R;
+
 import java.sql.Connection;
 
 import java.sql.ResultSet;
 import java.sql.Statement;
 
 import java.util.concurrent.ExecutionException;
-
-import static android.Manifest.permission.READ_CONTACTS;
 
 /**
  * A login screen that offers login via email/password.
@@ -82,7 +85,8 @@ public class LoginActivity extends AppCompatActivity  {
 
                 prefs.edit().putString("emailKey", email).apply();
 
-                finish();
+                Intent i = new Intent(this, AdminHome.class);
+                startActivity(i);
             }
         }catch (InterruptedException e){
 

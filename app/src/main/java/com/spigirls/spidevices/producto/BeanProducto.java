@@ -1,4 +1,4 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.producto;
 
 import java.io.Serializable;
 
@@ -104,5 +104,9 @@ public class BeanProducto implements Serializable {
 
     public String toString(){
         return this.nombre+" " +this.precio;
+    }
+
+    public boolean esMovil(){
+        return (mTipo.equals("Móvil"));
     }
 }

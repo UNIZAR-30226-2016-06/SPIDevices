@@ -1,7 +1,8 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.producto;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -9,49 +10,45 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.spigirls.spidevices.database.AccesoBD;
+import com.spigirls.spidevices.database.BDConnection;
+import com.spigirls.spidevices.spidevices.R;
+
 import java.sql.Connection;
 import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
-public class AnadirFabricante extends AppCompatActivity {
+public class BorrarFabricante extends AppCompatActivity {
 
-    private EditText mNombre;
-    private String nombre2;
-    private String cif2;
-    private String url2;
-    private EditText mCif;
-    private EditText mRrl;
+    private String cif;
+    private EditText cif1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_anadir_fabricante);
+        setContentView(R.layout.activity_borrar_fabricante);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        mNombre = (EditText) findViewById(R.id.nombref);
-        mCif = (EditText) findViewById(R.id.cif);
-        mRrl = (EditText) findViewById(R.id.urlf);
+        cif1 = (EditText) findViewById(R.id.cif);
 
-        Button añadirfab = (Button) findViewById(R.id.anadirfab);
+        Button eliminarFab = (Button) findViewById(R.id.eliminarFab);
 
-        añadirfab.setOnClickListener(new View.OnClickListener() {
+        eliminarFab.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                setFabricante();
+                deleteFab();
             }
 
         });
 
     }
 
-    private void setFabricante(){
+    private void deleteFab(){
+        cif=cif1.getText().toString();
 
-        nombre2 = mNombre.getText().toString();
-        cif2 = mCif.getText().toString();
-        url2 = mRrl.getText().toString();
-
-        Fabricante f = (Fabricante) new Fabricante(nombre2, cif2, url2).execute();
+        Fabricante f = (Fabricante) new Fabricante(cif).execute();
 
         try{
             boolean c=f.get();
@@ -59,8 +56,8 @@ public class AnadirFabricante extends AppCompatActivity {
                 AlertDialog alertDialog;
                 alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Error");
-                alertDialog.setMessage("El fabricante que ha intentado insertar ya " +
-                        "existe en la base de datos.");
+                alertDialog.setMessage("El fabricante que ha intentado borrar ya " +
+                        "no esta en la base de datos.");
                 alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -69,7 +66,9 @@ public class AnadirFabricante extends AppCompatActivity {
                 alertDialog.show();
             }
             else{
-                finish();
+                Intent intent = new Intent(this, AccesoBD.class);
+                intent.putExtra("Orden", "Nombre");
+                startActivity(intent);
             }
         }catch (InterruptedException e){
 
@@ -80,14 +79,10 @@ public class AnadirFabricante extends AppCompatActivity {
 
     public class Fabricante extends AsyncTask<Void,Void,Boolean> {
 
-        private final String nombre;
         private final String cif;
-        private final String url;
 
-        Fabricante(String nom, String cif, String url){
-            nombre=nom;
+        Fabricante(String cif){
             this.cif=cif;
-            this.url=url;
         }
 
         @Override
@@ -96,8 +91,8 @@ public class AnadirFabricante extends AppCompatActivity {
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
-                int i = st.executeUpdate("INSERT into Fabricante (CIF, Nombre, URL) " +
-                        "values ('"+cif+"','"+nombre+"','"+url+"')");
+                int i = st.executeUpdate("DELETE from Fabricante " +
+                        "where CIF='"+cif+"'");
                 return (i>0);
             }
             catch(Exception e){
@@ -105,6 +100,8 @@ public class AnadirFabricante extends AppCompatActivity {
             }
         }
 
-    }
 
+    }
 }
+
+

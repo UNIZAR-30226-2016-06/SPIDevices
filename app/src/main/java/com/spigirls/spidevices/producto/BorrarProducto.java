@@ -1,4 +1,4 @@
-package com.spigirls.spidevices.spidevices;
+package com.spigirls.spidevices.producto;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -10,6 +10,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.spigirls.spidevices.database.AccesoBD;
+import com.spigirls.spidevices.database.BDConnection;
+import com.spigirls.spidevices.spidevices.ListaProductos;
+import com.spigirls.spidevices.spidevices.R;
 
 import java.sql.Connection;
 import java.sql.Statement;
@@ -58,8 +63,9 @@ public class BorrarProducto extends AppCompatActivity {
                 alertDialog.show();
             }
             else{
-                Intent i =  new Intent(this, ListaProductos.class);
-                startActivity(i);
+                Intent intent = new Intent(this, AccesoBD.class);
+                intent.putExtra("Orden", "Nombre");
+                startActivity(intent);
             }
         }catch (InterruptedException e){
 

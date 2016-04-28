@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -13,25 +13,83 @@
     tools:showIn="@layout/activity_lista_productos"
     android:background="@drawable/logo_sincolor">
 
-    <TextView android:id="@+id/empty"
-        android:hint="Búsqueda..."
+    <TextView android:id="@+id/b"
+        android:hint="@string/Busqueda"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
 
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="452dp"
-        android:id="@+id/list"
-        android:layout_marginTop="25dp"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="center" />
-
     <EditText
-        android:layout_width="355dp"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:id="@+id/buscar"
-        android:layout_gravity="left|top" />
+        android:inputType="none"
+        android:layout_below="@+id/b"
+        android:layout_alignRight="@+id/textView9"
+        android:layout_alignEnd="@+id/textView9" />
 
-</FrameLayout>
+    <Spinner
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/buscar_por"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/textView8" />
+
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="359dp"
+        android:id="@+id/list"
+        android:layout_gravity="center"
+        android:layout_below="@+id/buscar_por"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/orden"
+        android:layout_alignTop="@+id/buscar"
+        android:layout_toRightOf="@+id/buscar"
+        android:layout_alignBottom="@+id/buscar"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/buscar_tipo"
+        android:layout_alignTop="@+id/buscar_por"
+        android:layout_toEndOf="@+id/textView9"
+        android:layout_alignLeft="@+id/textView9"
+        android:layout_alignStart="@+id/textView9" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Ordenar por:"
+        android:id="@+id/textView7"
+        android:layout_above="@+id/orden"
+        android:layout_alignLeft="@+id/orden"
+        android:layout_alignStart="@+id/orden" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Búsqueda por:"
+        android:id="@+id/textView8"
+        android:layout_below="@+id/buscar"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Tipo:"
+        android:id="@+id/textView9"
+        android:layout_toRightOf="@+id/buscar_por"
+        android:layout_alignTop="@+id/textView8" />
+
+</RelativeLayout>
