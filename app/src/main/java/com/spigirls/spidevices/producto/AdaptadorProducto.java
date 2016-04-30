@@ -22,7 +22,9 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * Created by YolandaGC on 13/4/16.
+ * Clase AdaptadorProducto que implementa un adaptador de la lista de productos. Implementando
+ * su vista dentro de la lista. Además tiene diferentes métodos para filtrar los productos
+ * de la lista de acuerdo a diferentes características.
  */
 public class AdaptadorProducto extends BaseAdapter {
 
@@ -38,6 +40,9 @@ public class AdaptadorProducto extends BaseAdapter {
         this.arraylist.addAll(lista);
     }
 
+    /*
+    Método que devuelve la vista de el producto en la lista con su imagen, nombre y precio
+     */
     public View getView(int position, View convertView,
                         ViewGroup parent) {
         LayoutInflater inflater = actividad.getLayoutInflater();
@@ -61,6 +66,7 @@ public class AdaptadorProducto extends BaseAdapter {
         }
         return view;
     }
+
     public int getCount() {
         return lista.size();
     }
@@ -71,7 +77,9 @@ public class AdaptadorProducto extends BaseAdapter {
         return position;
     }
 
-    // Filter Class by name
+    /*
+    Método que filtra los productos por coincidencias en el nombre
+     */
     public void filterNombre(String charText, String tipo) {
         charText = charText.toLowerCase(Locale.getDefault());
         lista.clear();
@@ -91,7 +99,9 @@ public class AdaptadorProducto extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    // Filter Class by fabricante
+    /*
+    Método que filtra los productos por coincidencias en el fabricante
+     */
     public void filterFabricante(String charText, String tipo) {
         charText = charText.toLowerCase(Locale.getDefault());
         lista.clear();
@@ -111,7 +121,9 @@ public class AdaptadorProducto extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    // Filter Class by reference
+    /*
+    Método que filtra los productos por coincidencias en la referencia
+     */
     public void filterReferencia(String charText, String tipo) {
         charText = charText.toLowerCase(Locale.getDefault());
         lista.clear();
@@ -131,10 +143,12 @@ public class AdaptadorProducto extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    // Filter Class by type
+    /*
+    Método que filtra los productos por tipo
+     */
     public void filterTipo(String tipo) {
         lista.clear();
-        if(tipo.equals("Todos")){
+        if(tipo.equals("Todos")) {
             lista.addAll(arraylist);
         }
         else{

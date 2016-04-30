@@ -29,6 +29,11 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
+/*
+    Clase InfoProducto que implementa la actividad en la que se muestra toda la información
+    de un producto: nombre, referencia, fabricante, color, precio, imagen, descripción y url
+    de compra.
+ */
 public class InfoProducto extends AppCompatActivity {
 
     private TextView mNombre;
@@ -51,8 +56,11 @@ public class InfoProducto extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         context = this;
+
+        //Obtiene el objeto producto pasado por la actividad que la invoca
         producto = (BeanProducto)getIntent().getSerializableExtra("producto");
 
+        //Campos del producto en la pantalla
         mNombre = (TextView) findViewById(R.id.nombre);
         mReferencia = (TextView) findViewById(R.id.referencia);
         mFabricante = (TextView) findViewById(R.id.fabricante);
@@ -61,8 +69,10 @@ public class InfoProducto extends AppCompatActivity {
         mImagen = (ImageView) findViewById(R.id.imagen);
         mDescripcion = (TextView) findViewById(R.id.descripcion);
 
+        //Método que coloca la información del producto en los campos correspondientes
         populateFields();
 
+        //Botón que redirecciona a una web para comprar el producto cuando se selecciona
         Button comprar = (Button) findViewById(R.id.URL);
 
         comprar.setOnClickListener(new View.OnClickListener() {
@@ -70,10 +80,12 @@ public class InfoProducto extends AppCompatActivity {
             public void onClick(View view) {
                 Uri uriUrl = Uri.parse(url);
                 Intent launchBrowser = new Intent(Intent.ACTION_VIEW, uriUrl);
-                startActivity(launchBrowser);
+                startActivity(launchBrowser); //Inicia el navegador web
             }
         });
 
+        //Mira si el administrador ha iniciado sesión, si lo ha hecho se muestran los botones
+        //modificar y eliminar producto sino no.
         SharedPreferences prefs = this.getSharedPreferences(
                 "com.spigirls.spidevices.spidevices", Context.MODE_PRIVATE);
 
@@ -89,7 +101,6 @@ public class InfoProducto extends AppCompatActivity {
 
                 public void onClick(View view) {
                     modificarProducto();
-
                 }
             });
 
@@ -107,6 +118,10 @@ public class InfoProducto extends AppCompatActivity {
 
     }
 
+    /*
+    Método populareFields que inserta en los campos de la pantalla la información de el
+    producto.
+     */
     private void populateFields(){
         mNombre.setText(producto.getNombre());
         mReferencia.setText(producto.getReferencia());
@@ -115,6 +130,11 @@ public class InfoProducto extends AppCompatActivity {
         mPrecio.setText(producto.getPrecio()+" €");
         url=producto.getUrl();
         mDescripcion.setText(producto.getDescripcion());
+
+        /*
+        Para obtener la imagen realiza una petición http en background que le devuelve el objeto
+        bitmat, el cual muestra en la pantalla.
+         */
         CargarImagen c=(CargarImagen) new CargarImagen(producto.getImagen()).execute();
         try{
             bm=c.get();
@@ -124,7 +144,7 @@ public class InfoProducto extends AppCompatActivity {
             }
         }
         catch(Exception e){
-
+            System.err.print("Error carga imagen.");
         }
     }
 
@@ -142,6 +162,7 @@ public class InfoProducto extends AppCompatActivity {
                 try{
                     boolean c=p.get();
                     if(!c){
+                        //Ha habido un error a la hora de borrar el producto
                         AlertDialog alertDialog;
                         alertDialog = new AlertDialog.Builder(context).create();
                         alertDialog.setTitle("Error");
@@ -170,6 +191,9 @@ public class InfoProducto extends AppCompatActivity {
         irMain();
     }
 
+    /*
+    Método que ejecuta una nueva actividad para modificar los datos del producto.
+     */
     private void modificarProducto(){
         Intent i = new Intent(InfoProducto.this,ModificarProducto.class);
         i.putExtra("producto",producto);
@@ -268,9 +292,15 @@ public class InfoProducto extends AppCompatActivity {
     protected void onResume () {
 
         super.onResume();
+
+        //Coloca la imagen
         mImagen.setAdjustViewBounds(true);
         mImagen.setImageBitmap(bm);
 
+        /*
+        Comprueba si el administrador ha iniciado sesión para mostrar los botones de
+        modificar y eliminar producto si así ha sido.
+         */
         SharedPreferences prefs = this.getSharedPreferences(
                 "com.spigirls.spidevices.spidevices", Context.MODE_PRIVATE);
 
