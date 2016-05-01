@@ -224,22 +224,18 @@ public class ModificarProducto extends AppCompatActivity{
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT CIF,Nombre FROM Fabricante");
+                ResultSet rs = st.executeQuery("SELECT Nombre FROM Fabricante");
                 String[] fabs = new String[100];
-                String f="";
                 int i = 0;
                 while(rs.next()){
-                    if(rs.getString("CIF").compareTo(fab)==0){
-                        f=rs.getString("Nombre");
-                    }
                     fabs[i] = rs.getString("Nombre");
                     i++;
                 }
                 String[] s = new String[i];
                 for(i = 0; i<s.length; i++){
-                    if(fabs[i].compareTo(f)==0){
+                    if(fabs[i].compareTo(fab)==0){
                         s[i]=s[0];
-                        s[0]=f;
+                        s[0]=fab;
                     }else {
                         s[i] = fabs[i];
                     }

@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.spigirls.spidevices.database.BDConnection;
-import com.spigirls.spidevices.producto.BorrarProducto;
 import com.spigirls.spidevices.spidevices.R;
 
 import java.sql.Connection;
@@ -30,16 +29,11 @@ import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
 /**
- * A login screen that offers login via email/password.
+ * Clase LoginActivity que permite la autentificacion de un administrador mediante email/contraseña
  */
 public class LoginActivity extends AppCompatActivity  {
 
-    /**
-     * Keep track of the login task to ensure we can cancel it if requested.
-     */
-    private LoginAdmin mAuthTask = null;
-
-    // UI references.
+    // Referencias de la interfaz
     private AutoCompleteTextView mEmailView;
     private EditText mPasswordView;
     private View mProgressView;
@@ -49,7 +43,6 @@ public class LoginActivity extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // Set up the login form.
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
 
 
@@ -69,9 +62,8 @@ public class LoginActivity extends AppCompatActivity  {
 
 
     /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
+     * Metodo que incia un nuevo hilo para comprobar si la autentifiacion del administrador es correcta
+     * En caso de que sea correcta inicia una nueva actividad y pone la aplicacion en modo administrador
      */
     private void attemptLogin() {
         String email = mEmailView.getText().toString();
@@ -96,13 +88,10 @@ public class LoginActivity extends AppCompatActivity  {
     }
 
     /**
-     * Shows the progress UI and hides the login form.
+     * Metodo que muestra el proceso de la interfaz y oculta el formulario de login
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB_MR2)
     private void showProgress(final boolean show) {
-        // On Honeycomb MR2 we have the ViewPropertyAnimator APIs, which allow
-        // for very easy animations. If available, use these APIs to fade-in
-        // the progress spinner.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
             int shortAnimTime = getResources().getInteger(android.R.integer.config_shortAnimTime);
 
@@ -124,8 +113,6 @@ public class LoginActivity extends AppCompatActivity  {
                 }
             });
         } else {
-            // The ViewPropertyAnimator APIs are not available, so simply show
-            // and hide the relevant UI components.
             mProgressView.setVisibility(show ? View.VISIBLE : View.GONE);
             mLoginFormView.setVisibility(show ? View.GONE : View.VISIBLE);
         }
@@ -136,8 +123,8 @@ public class LoginActivity extends AppCompatActivity  {
 
 
     /**
-     * Represents an asynchronous login/registration task used to authenticate
-     * the user.
+     * Clase LoginAdmin que representa un hilo asincrono en el cual se consulta la base de datos
+     * para autentificar al administrador
      */
     public class LoginAdmin extends AsyncTask<Void,Void,Boolean> {
 
@@ -146,10 +133,22 @@ public class LoginActivity extends AppCompatActivity  {
         private final String mPassword;
         private Boolean c;
 
+        /**
+         * Metodo constructor de la clase LoginAdmin
+         * @param email - correo electronico identificativo del administrador
+         * @param password - contraseña del administrador
+         */
         LoginAdmin(String email,String password){
             mEmail=email;
             mPassword=password;
         }
+
+        /**
+         * Metodo que se ejecuta en segundo plano en el cual se consulta si existe un administrado en la base de datos
+         * con un determinado correo y en caso de que exista se comprueba que la contraseña sea igual a la introducida
+         * @param params
+         * @return true en caso de que el acceso sea correcto (email y contraseña coincidan) y false en otro caso
+         */
         @Override
         protected Boolean doInBackground(Void ... params) {
             Boolean admin =false;
@@ -173,13 +172,16 @@ public class LoginActivity extends AppCompatActivity  {
             catch(Exception e){
 
             }
-
             return null;
         }
 
+        /**
+         * Metodo que muestra los errores del logueo, esto puede ocurrir si no existe ningun email en la base de datos
+         * o en caso de que exista pero la contrasea sea incorrecta
+         * @param success - el administrador ha sido logeado correctamente o ha habido algun fallo
+         */
         @Override
         protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
             showProgress(false);
 
             if (success) {
@@ -197,11 +199,7 @@ public class LoginActivity extends AppCompatActivity  {
             }
         }
 
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
+
     }
 
 
