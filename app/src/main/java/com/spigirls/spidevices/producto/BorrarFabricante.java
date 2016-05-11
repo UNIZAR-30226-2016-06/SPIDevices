@@ -26,6 +26,7 @@ public class BorrarFabricante extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+    	
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_borrar_fabricante);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -33,10 +34,13 @@ public class BorrarFabricante extends AppCompatActivity {
 
         cif1 = (EditText) findViewById(R.id.cif);
 
+        //Se pone nombre al boton
         Button eliminarFab = (Button) findViewById(R.id.eliminarFab);
 
+        //Se da la funcionalidad de borrar fabricante al boton anterior
         eliminarFab.setOnClickListener(new View.OnClickListener() {
 
+        	//Cuando se pulse el boton se llamara al metodo deleteFab()
             public void onClick(View view) {
                 deleteFab();
             }
@@ -45,16 +49,22 @@ public class BorrarFabricante extends AppCompatActivity {
 
     }
 
+    /**
+     * Metodo que se ejecuta al pulsar el boton de Borrar fabricante 
+     */
     private void deleteFab(){
+    	
         cif=cif1.getText().toString();
 
+        //Se crea un objeto de tipo Fabricante y se ejecuta el metodo doInBackground asociado
         Fabricante f = (Fabricante) new Fabricante(cif).execute();
 
         try{
-            boolean c=f.get();
-            if(!c){
+            boolean c=f.get();//c es el resultado del metodo doInBackground asociado a f
+            if(!c){//Si hay algun error al borrar el fabricante
                 AlertDialog alertDialog;
                 alertDialog = new AlertDialog.Builder(this).create();
+                //Se muestra un mensaje indicando lo sucedido
                 alertDialog.setTitle("Error");
                 alertDialog.setMessage("El fabricante que ha intentado borrar ya " +
                         "no esta en la base de datos.");
@@ -65,7 +75,7 @@ public class BorrarFabricante extends AppCompatActivity {
                 });
                 alertDialog.show();
             }
-            else{
+            else{//c==true
                 Intent intent = new Intent(this, AccesoBD.class);
                 intent.putExtra("Orden", "Nombre");
                 startActivity(intent);
@@ -76,21 +86,34 @@ public class BorrarFabricante extends AppCompatActivity {
 
         }
     }
-
+    
+    /**
+     * Clase auxiliar Fabricante que permite realizar la operación de borrado de un fabricante
+     */
     public class Fabricante extends AsyncTask<Void,Void,Boolean> {
 
         private final String cif;
 
+        /**
+         * Metodo constructor de los objetos Fabricante
+         */
         Fabricante(String cif){
             this.cif=cif;
         }
 
+
+        /**
+         * Metodo que  borra el Fabricante en segundo plano.
+         * Devuelve true en caso de que el borrado haya sido correcto y false en caso contrario.
+         */
         @Override
         protected Boolean doInBackground(Void ... params) {
             try{
+            	//Se establece conexion con la base de datos
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
+                //Se ejecuta la query pertinente para borrar al fabricante de la BD
                 int i = st.executeUpdate("DELETE from Fabricante " +
                         "where CIF='"+cif+"'");
                 return (i>0);

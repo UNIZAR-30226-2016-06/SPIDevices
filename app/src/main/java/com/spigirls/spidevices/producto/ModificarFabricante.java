@@ -40,8 +40,10 @@ public class ModificarFabricante extends AppCompatActivity{
         url1 = (EditText) findViewById(R.id.urlf);
 
         Button modificarFab = (Button) findViewById(R.id.anadirfab);
+        //Cambio de nombre al boton
         modificarFab.setText("MODIFICAR");
 
+        //Adicion de funcionalidad al boton
         modificarFab.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -51,20 +53,27 @@ public class ModificarFabricante extends AppCompatActivity{
         });
 
     }
+    
+    /**
+     * Metodo que se ejecuta al pulsar el boton para modificar un fabricante
+     */
     private void updateFab(){
         cif=cif1.getText().toString();
         nombre=nombre1.getText().toString();
         url=url1.getText().toString();
 
+        //Se crea un objeto Fabricante y se ejecuta su metodo doInBackground asociado 
         Fabricante f = (Fabricante) new Fabricante(nombre, cif, url).execute();
 
         try{
-            boolean c=f.get();
-            if(!c){
+            boolean c=f.get();//c es el resultado del metodo doInBackground que realiza
+            				  // la modificacion del fabricante
+            if(!c){//c==false
                 AlertDialog alertDialog;
                 alertDialog = new AlertDialog.Builder(this).create();
+                //Se informa de que ha habido un error
                 alertDialog.setTitle("Error");
-                alertDialog.setMessage("El fabricante que ha intentado no " +
+                alertDialog.setMessage("El fabricante que ha intentado modificar no " +
                         "exite en la base de datos.");
                 alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
@@ -73,7 +82,7 @@ public class ModificarFabricante extends AppCompatActivity{
                 });
                 alertDialog.show();
             }
-            else{
+            else{//c==true
                 Intent intent = new Intent(this, AccesoBD.class);
                 intent.putExtra("Orden", "Nombre");
                 startActivity(intent);
@@ -84,24 +93,38 @@ public class ModificarFabricante extends AppCompatActivity{
 
         }
     }
+    
+    /**
+     * Clase auxiliar necesaria para la modificacion de fabricantes
+     */
     public class Fabricante extends AsyncTask<Void,Void,Boolean> {
 
         private final String nNombre;
         private final String cif;
         private final String url;
 
+        /**
+         * Metodo constructor de objetos tipo Fabricante
+         */
         Fabricante(String nom, String cif, String url){
             this.nNombre =nom;
             this.cif=cif;
             this.url=url;
         }
-
+        
+        /**
+         *  Metodo que ejecuta en segundo plano la modificacion de un fabricante.
+         *  Devuelve true si la modificacion se realiza de manera correcta y false
+         *  en caso contrario
+         */
         @Override
         protected Boolean doInBackground(Void ... params) {
             try{
+            	//Se establece conexion con la base de datos
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
+                //Se ejecuta la query que hace que se actualice un fabricante
                 int i = st.executeUpdate("UPDATE Fabricante set Nombre='" + nNombre + "', URL='" + url + "' " +
                         "where CIF='" + cif + "'");
                 return (i>0);
