@@ -120,7 +120,7 @@ public class AnadirProducto extends AppCompatActivity {
         precio = mPrecio.getText().toString();
         imagen = mImagen.getText().toString();
         descripcion = mDescripcion.getText().toString();
-        url = mUrl.getText().toString();;
+        url = mUrl.getText().toString();
 
         Producto p = (Producto) new Producto(nombre, referencia, color, precio,
                 imagen, descripcion, url, mTipo, mFabricante).execute();
@@ -128,23 +128,26 @@ public class AnadirProducto extends AppCompatActivity {
         try{
             boolean c=p.get();
             if(!c){
-                AlertDialog alertDialog;
-                alertDialog = new AlertDialog.Builder(this).create();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage("El producto que ha intentado insertar ya " +
-                        "existe en la base de datos.");
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.cancel();
-                    }
-                });
-                alertDialog.show();
+            AlertDialog alertDialog;
+            alertDialog = new AlertDialog.Builder(this).create();
+            alertDialog.setTitle("Error");
+            alertDialog.setMessage("El producto que ha intentado insertar ya " +
+                    "existe en la base de datos.");
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+            alertDialog.show();
             }
             else{
                 Intent intent = new Intent(this, AccesoBD.class);
                 intent.putExtra("Orden", "Nombre");
                 startActivity(intent);
             }
+
+
+
         }catch (InterruptedException e){
 
         }catch (ExecutionException e){

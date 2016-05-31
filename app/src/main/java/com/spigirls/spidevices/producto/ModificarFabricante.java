@@ -19,7 +19,7 @@ import java.sql.Connection;
 import java.sql.Statement;
 import java.util.concurrent.ExecutionException;
 
-public class ModificarFabricante extends AppCompatActivity{
+public class ModificarFabricante extends AppCompatActivity {
 
     private String cif;
     private EditText cif1;
@@ -53,22 +53,22 @@ public class ModificarFabricante extends AppCompatActivity{
         });
 
     }
-    
+
     /**
      * Metodo que se ejecuta al pulsar el boton para modificar un fabricante
      */
-    private void updateFab(){
-        cif=cif1.getText().toString();
-        nombre=nombre1.getText().toString();
-        url=url1.getText().toString();
+    private void updateFab() {
+        cif = cif1.getText().toString();
+        nombre = nombre1.getText().toString();
+        url = url1.getText().toString();
 
         //Se crea un objeto Fabricante y se ejecuta su metodo doInBackground asociado 
         Fabricante f = (Fabricante) new Fabricante(nombre, cif, url).execute();
 
-        try{
-            boolean c=f.get();//c es el resultado del metodo doInBackground que realiza
-            				  // la modificacion del fabricante
-            if(!c){//c==false
+        try {
+            boolean c = f.get();//c es el resultado del metodo doInBackground que realiza
+            // la modificacion del fabricante
+            if (!c) {//c==false
                 AlertDialog alertDialog;
                 alertDialog = new AlertDialog.Builder(this).create();
                 //Se informa de que ha habido un error
@@ -81,23 +81,22 @@ public class ModificarFabricante extends AppCompatActivity{
                     }
                 });
                 alertDialog.show();
-            }
-            else{//c==true
+            } else {//c==true
                 Intent intent = new Intent(this, AccesoBD.class);
                 intent.putExtra("Orden", "Nombre");
                 startActivity(intent);
             }
-        }catch (InterruptedException e){
+        } catch (InterruptedException e) {
 
-        }catch (ExecutionException e){
+        } catch (ExecutionException e) {
 
         }
     }
-    
+
     /**
      * Clase auxiliar necesaria para la modificacion de fabricantes
      */
-    public class Fabricante extends AsyncTask<Void,Void,Boolean> {
+    public class Fabricante extends AsyncTask<Void, Void, Boolean> {
 
         private final String nNombre;
         private final String cif;
@@ -106,30 +105,36 @@ public class ModificarFabricante extends AppCompatActivity{
         /**
          * Metodo constructor de objetos tipo Fabricante
          */
-        Fabricante(String nom, String cif, String url){
-            this.nNombre =nom;
-            this.cif=cif;
-            this.url=url;
+        Fabricante(String nom, String cif, String url) {
+            this.nNombre = nom;
+            this.cif = cif;
+            this.url = url;
         }
-        
+
         /**
-         *  Metodo que ejecuta en segundo plano la modificacion de un fabricante.
-         *  Devuelve true si la modificacion se realiza de manera correcta y false
-         *  en caso contrario
+         * Metodo que ejecuta en segundo plano la modificacion de un fabricante.
+         * Devuelve true si la modificacion se realiza de manera correcta y false
+         * en caso contrario
          */
         @Override
-        protected Boolean doInBackground(Void ... params) {
-            try{
-            	//Se establece conexion con la base de datos
+        protected Boolean doInBackground(Void... params) {
+            try {
+                //Se establece conexion con la base de datos
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
                 //Se ejecuta la query que hace que se actualice un fabricante
-                int i = st.executeUpdate("UPDATE Fabricante set Nombre='" + nNombre + "', URL='" + url + "' " +
-                        "where CIF='" + cif + "'");
+                int i;
+                if (nNombre != "") {
+                    i= st.executeUpdate("UPDATE Fabricante set Nombre='" + nNombre + "' " +
+                           "where CIF='" + cif + "'");
+                }
+                else{
+                    i=-1;
+                }
                 return (i>0);
             }
-            catch(Exception e){
+            catch (Exception e) {
                 return false;
             }
         }

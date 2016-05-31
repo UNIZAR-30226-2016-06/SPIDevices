@@ -88,7 +88,7 @@ public class BorrarFabricante extends AppCompatActivity {
     }
     
     /**
-     * Clase auxiliar Fabricante que permite realizar la operación de borrado de un fabricante
+     * Clase auxiliar Fabricante que permite realizar la operaciï¿½n de borrado de un fabricante
      */
     public class Fabricante extends AsyncTask<Void,Void,Boolean> {
 
@@ -119,7 +119,7 @@ public class BorrarFabricante extends AppCompatActivity {
                 return (i>0);
             }
             catch(Exception e){
-                return false;
+                return true;
             }
         }
 

@@ -65,8 +65,8 @@ public class AnadirFabricante extends AppCompatActivity {
                 AlertDialog alertDialog;
                 alertDialog = new AlertDialog.Builder(this).create();
                 alertDialog.setTitle("Error");
-                alertDialog.setMessage("El fabricante que ha intentado insertar ya " +
-                        "existe en la base de datos.");
+                alertDialog.setMessage("El fabricante que ha intentado insertar no " +
+                        "ha podido insertarse en la base de datos.");
                 alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         dialog.cancel();
@@ -104,9 +104,19 @@ public class AnadirFabricante extends AppCompatActivity {
                 BDConnection bd = BDConnection.getInstance();
                 Connection connection = bd.getConnection();
                 Statement st = connection.createStatement();
-                int i = st.executeUpdate("INSERT into Fabricante (CIF, Nombre, URL) " +
-                        "values ('"+cif+"','"+nombre+"','"+url+"')");
-                return (i>0);
+                if (cif!="") {
+                    if (nombre.equals("")){
+                        return false;
+                    }
+                    else{
+                        int i = st.executeUpdate("INSERT into Fabricante (CIF, Nombre, URL) " +
+                                "values ('" + cif + "','" + nombre + "','" + url + "')");
+                        return (i > 0);
+                    }
+                }
+                else{
+                    return false;
+                }
             }
             catch(Exception e){
                 return false;
