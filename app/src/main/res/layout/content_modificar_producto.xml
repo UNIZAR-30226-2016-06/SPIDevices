@@ -17,7 +17,7 @@
         android:id="@+id/añadir_button"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:text="AÑADIR"
+        android:text="MODIFICAR"
         android:backgroundTint="#6494dd"
         android:textColor="#ffffff"
         android:textSize="25dp"
@@ -43,9 +43,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="Referencia:"
+        android:hint="Imagen:"
         android:ems="10"
-        android:id="@+id/referencia"
+        android:id="@+id/imagen"
         android:layout_below="@+id/nombre"
         android:layout_alignLeft="@+id/nombre"
         android:layout_alignStart="@+id/nombre"
@@ -56,27 +56,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="Imagen:"
-        android:ems="10"
-        android:id="@+id/imagen"
-        android:layout_below="@+id/referencia"
-        android:layout_alignLeft="@+id/referencia"
-        android:layout_alignStart="@+id/referencia"
-        android:layout_alignRight="@+id/referencia"
-        android:layout_alignEnd="@+id/referencia" />
-
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:inputType="textPersonName"
         android:hint="Color:"
         android:ems="10"
         android:id="@+id/color"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/imagen"
-        android:layout_alignLeft="@+id/imagen"
-        android:layout_alignStart="@+id/imagen" />
+        android:layout_below="@+id/url"
+        android:layout_alignLeft="@+id/url"
+        android:layout_alignStart="@+id/url" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -122,7 +109,6 @@
         android:layout_alignTop="@+id/tipo"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentEnd="false"
         android:textIsSelectable="false" />
 
     <Spinner
@@ -138,11 +124,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/url"
-        android:layout_below="@+id/descripcion"
+        android:layout_below="@+id/imagen"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:hint="URL:"
-        android:layout_alignRight="@+id/descripcion"
-        android:layout_alignEnd="@+id/descripcion" />
+        android:layout_alignRight="@+id/imagen"
+        android:layout_alignEnd="@+id/imagen" />
 
 </RelativeLayout>

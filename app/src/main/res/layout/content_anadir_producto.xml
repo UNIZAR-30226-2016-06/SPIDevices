@@ -23,6 +23,7 @@
         android:backgroundTint="#6494dd"
         android:textColor="#ffffff"
         android:textSize="25dp"
+        android:layout_below="@+id/descripcion"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -32,24 +33,36 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="Nombre:"
+        android:hint="Referencia:"
         android:ems="10"
-        android:id="@+id/nombre"
+        android:id="@+id/referencia"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
 
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName"
+        android:hint="Nombre:"
+        android:ems="10"
+        android:id="@+id/nombre"
+        android:layout_below="@+id/referencia"
+        android:layout_alignLeft="@+id/referencia"
+        android:layout_alignStart="@+id/referencia"
+        android:layout_alignRight="@+id/referencia"
+        android:layout_alignEnd="@+id/referencia" />
 
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:hint="Referencia:"
+        android:hint="Imagen:"
         android:ems="10"
-        android:id="@+id/referencia"
+        android:id="@+id/imagen"
         android:layout_below="@+id/nombre"
         android:layout_alignLeft="@+id/nombre"
         android:layout_alignStart="@+id/nombre"
@@ -59,15 +72,13 @@
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textPersonName"
-        android:hint="Imagen:"
-        android:ems="10"
-        android:id="@+id/imagen"
-        android:layout_below="@+id/referencia"
-        android:layout_alignLeft="@+id/referencia"
-        android:layout_alignStart="@+id/referencia"
-        android:layout_alignRight="@+id/referencia"
-        android:layout_alignEnd="@+id/referencia" />
+        android:id="@+id/c"
+        android:layout_below="@+id/imagen"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="URL:"
+        android:layout_alignRight="@+id/imagen"
+        android:layout_alignEnd="@+id/imagen" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -78,9 +89,9 @@
         android:id="@+id/color"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/imagen"
-        android:layout_alignLeft="@+id/imagen"
-        android:layout_alignStart="@+id/imagen" />
+        android:layout_below="@+id/c"
+        android:layout_alignLeft="@+id/c"
+        android:layout_alignStart="@+id/c" />
 
     <EditText
         android:layout_width="wrap_content"
@@ -91,9 +102,7 @@
         android:hint="Precio:"
         android:layout_below="@+id/color"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_width="wrap_content"
@@ -110,12 +119,9 @@
         android:ems="10"
         android:id="@+id/descripcion"
         android:hint="Descripción:"
-        android:layout_below="@+id/fabs"
+        android:layout_below="@+id/textView"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:layout_above="@+id/añadir_button" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -137,7 +143,8 @@
         android:layout_below="@+id/tipo"
         android:spinnerMode="dropdown"
         android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView" />
+        android:layout_toEndOf="@+id/textView"
+        android:layout_marginTop="06dp" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -145,9 +152,12 @@
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Fabricante:"
         android:id="@+id/textView"
-        android:layout_alignTop="@+id/fabs"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/fabs"
+        android:layout_alignBottom="@+id/fabs"
+        android:layout_marginTop="06dp" />
+
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -159,18 +169,7 @@
         android:layout_alignEnd="@+id/fabricante"
         android:text="Descripción"
         android:maxLength="300"
-        android:layout_above="@+id/precio" >
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/c"
-            android:layout_below="@+id/descripcion"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:hint="URL:"
-            android:layout_alignRight="@+id/descripcion"
-            android:layout_alignEnd="@+id/descripcion" />
+        android:layout_above="@+id/precio">
     </ScrollView>
 
 </RelativeLayout>
