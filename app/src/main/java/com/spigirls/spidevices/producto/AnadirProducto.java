@@ -193,12 +193,16 @@ public class AnadirProducto extends AppCompatActivity {
                 while(rs.next()){
                     cif=rs.getString("CIF");
                 }
-               int i = st.executeUpdate("INSERT INTO Producto (Referencia, Nombre, " +
-                        " Descripcion, Precio, Color, Fabricante, Administrador, Foto," +
-                        " URL, Tipo) VALUES ('" + referencia2 + "','" + nombre2 + "'"+
-                        ",'" + descripcion2 + "','" + precio2 + "','" + color2 + "','" + cif +
-                        "','1234567','"+imagen2+"','"+url2+"','"+tipo2+"')");
-                return (i>0);
+                if(referencia2.compareTo("")!=0 && url2.compareTo("")!=0 && precio2.compareTo("")!=0){
+                    int i = st.executeUpdate("INSERT INTO Producto (Referencia, Nombre, " +
+                            " Descripcion, Precio, Color, Fabricante, Administrador, Foto," +
+                            " URL, Tipo) VALUES ('" + referencia2 + "','" + nombre2 + "'"+
+                            ",'" + descripcion2 + "','" + precio2 + "','" + color2 + "','" + cif +
+                            "','1234567','"+imagen2+"','"+url2+"','"+tipo2+"')");
+                    return (i>0);
+                }
+               else
+                    return false;
             }
             catch(Exception e){
                 return false;

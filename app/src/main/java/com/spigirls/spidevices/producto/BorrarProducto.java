@@ -88,7 +88,7 @@ public class BorrarProducto extends AppCompatActivity {
     }
 
     /**
-     * Clase auxiliar Producto que permite realizar la operación de borrado de un producto
+     * Clase auxiliar Producto que permite realizar la operacion de borrado de un producto
      */
     public class Producto extends AsyncTask<Void,Void,Boolean> {
 
