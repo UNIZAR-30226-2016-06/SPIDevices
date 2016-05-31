@@ -128,17 +128,32 @@ public class AnadirProducto extends AppCompatActivity {
         try{
             boolean c=p.get();
             if(!c){
-            AlertDialog alertDialog;
-            alertDialog = new AlertDialog.Builder(this).create();
-            alertDialog.setTitle("Error");
-            alertDialog.setMessage("El producto que ha intentado insertar ya " +
-                    "existe en la base de datos.");
-            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
+                if(nombre.compareTo("")==0){
+                    mNombre.setError(getString(R.string.error_field_required));
+                    mNombre.requestFocus();
+                }else if(referencia.compareTo("")==0){
+                    mReferencia.setError(getString(R.string.error_field_required));
+                    mReferencia.requestFocus();
+                }else if(url .compareTo("")==0){
+                    mUrl.setError(getString(R.string.error_field_required));
+                    mUrl.requestFocus();
+                }else if(precio.compareTo("")==0){
+                    mPrecio.setError(getString(R.string.error_field_required));
+                    mPrecio.requestFocus();
                 }
-            });
-            alertDialog.show();
+                else{
+                    AlertDialog alertDialog;
+                    alertDialog = new AlertDialog.Builder(this).create();
+                    alertDialog.setTitle("Error");
+                    alertDialog.setMessage("El producto que ha intentado insertar ya " +
+                            "existe en la base de datos.");
+                    alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    alertDialog.show();
+                }
             }
             else{
                 Intent intent = new Intent(this, AccesoBD.class);
@@ -168,9 +183,10 @@ public class AnadirProducto extends AppCompatActivity {
         private final String tipo2;
         private final String fabricante2;
         private final String url2;
+        private boolean c;
 
         Producto(String nom, String ref, String col, String pre, String img,
-                   String des, String dir, String tip, String fab){
+                 String des, String dir, String tip, String fab){
             nombre2=nom;
             referencia2=ref;
             descripcion2 =des;
@@ -184,28 +200,29 @@ public class AnadirProducto extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void ... params) {
-            try{
-                BDConnection bd = BDConnection.getInstance();
-                Connection connection = bd.getConnection();
-                Statement st = connection.createStatement();
-                ResultSet rs = st.executeQuery("SELECT CIF from Fabricante where Nombre='"+fabricante2+"'");
-                String cif="";
-                while(rs.next()){
-                    cif=rs.getString("CIF");
-                }
-                if(referencia2.compareTo("")!=0 && url2.compareTo("")!=0 && precio2.compareTo("")!=0){
+            if(nombre2.compareTo("")==0 || referencia2.compareTo("")==0 || precio2.compareTo("")==0 || url2.compareTo("")==0){
+                return false;
+            }else{
+                try{
+                    BDConnection bd = BDConnection.getInstance();
+                    Connection connection = bd.getConnection();
+                    Statement st = connection.createStatement();
+                    ResultSet rs = st.executeQuery("SELECT CIF from Fabricante where Nombre='"+fabricante2+"'");
+                    String cif="";
+                    while(rs.next()){
+                        cif=rs.getString("CIF");
+                    }
                     int i = st.executeUpdate("INSERT INTO Producto (Referencia, Nombre, " +
                             " Descripcion, Precio, Color, Fabricante, Administrador, Foto," +
                             " URL, Tipo) VALUES ('" + referencia2 + "','" + nombre2 + "'"+
                             ",'" + descripcion2 + "','" + precio2 + "','" + color2 + "','" + cif +
                             "','1234567','"+imagen2+"','"+url2+"','"+tipo2+"')");
+
                     return (i>0);
                 }
-               else
+                catch(Exception e){
                     return false;
-            }
-            catch(Exception e){
-                return false;
+                }
             }
         }
     }
