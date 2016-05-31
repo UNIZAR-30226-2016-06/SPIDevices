@@ -29,7 +29,7 @@ public class ModificarProducto extends AppCompatActivity{
     private EditText nombre1;
     private String nombre;
     private String referencia;
-    private EditText referencia1;
+    //private EditText referencia1;
     private String descripcion;
     private EditText descripcion1;
     private String imagen;
@@ -55,7 +55,7 @@ public class ModificarProducto extends AppCompatActivity{
         producto = (BeanProducto) getIntent().getSerializableExtra("producto");
 
         nombre1 = (EditText) findViewById(R.id.nombre);
-        referencia1 = (EditText) findViewById(R.id.referencia);
+        //referencia1 = (EditText) findViewById(R.id.referencia);
         descripcion1 = (EditText) findViewById(R.id.descripcion);
         imagen1 = (EditText) findViewById(R.id.imagen);
         color1 = (EditText) findViewById(R.id.color);
@@ -125,7 +125,7 @@ public class ModificarProducto extends AppCompatActivity{
      */
     private void updateProduct(){
         nombre = nombre1.getText().toString();
-        referencia = referencia1.getText().toString();
+       // referencia = referencia1.getText().toString();
         color= color1.getText().toString();
         precio = precio1.getText().toString();
         imagen = imagen1.getText().toString();
@@ -170,7 +170,7 @@ public class ModificarProducto extends AppCompatActivity{
      */
     private void rellenar(){
         nombre1.setText(producto.getNombre());
-        referencia1.setText(producto.getReferencia());
+       // referencia1.setText(producto.getReferencia());
         url1.setText(producto.getUrl());
         color1.setText(producto.getColor());
         imagen1.setText(producto.getImagen());
